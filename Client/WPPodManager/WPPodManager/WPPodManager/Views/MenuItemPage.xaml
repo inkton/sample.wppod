@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="WPPodManager.Views.MenuItemPage"
+		Title="Menu Item">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Save" Clicked="Save_Clicked" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<StackLayout Spacing="20" Padding="15">
+            
+            <Label Text="Title" />
+            <Entry Text="{Binding Item.Title}"  />
+            
+			<Label Text="Description"  />
+            <Entry Text="{Binding Item.Description}" />
+
+            <Label Text="Price" />
+            <Entry Text="{Binding Item.Price}" />
+
+            <Label Text="Photo" />
+            <Entry Text="{Binding Item.Photo}" />
+
+            <Picker x:Name="FoodType" Title="Food Type" 
+                    ItemsSource="{Binding FoodTypes}" >
+            </Picker>
+            
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

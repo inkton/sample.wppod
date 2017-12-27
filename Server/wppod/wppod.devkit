@@ -1,0 +1,160 @@
+version: '3.1'
+
+services:
+#BEGIN-> nest-service-mariadb
+   db-mariadb:
+       container_name: wppod-db-mariadb
+       dns:
+           - 8.8.8.8 
+           - 8.8.4.4
+       image: inkton/nest.mariadb
+       volumes:
+           - .:/var/app
+       ports:
+           - "80"
+           - "3306"
+           - "8200"
+       environment:
+           NEST_APP_SERVICE : db
+           NEST_APP_TAG : wppod
+           NEST_APP_TAG_CAP : Wppod
+           NEST_APP_NAME : "West Point Pod"
+           NEST_APP_ID : 8906
+           NEST_APP_TYPE : uniflow
+           NEST_FOLDER_APP : /var/app
+           NEST_FOLDER_SOURCE : /var/app/source
+           NEST_FOLDER_PUBLISH : /var/app/publish
+           NEST_FOLDER_HOME : /usr/local/nest
+           NEST_FOLDER_UPLOADS : /var/app/uploads
+           NEST_FOLDER_DOWNLOADS : /var/app/downloads
+           NEST_SERVICES_PASSWORD : aiping71
+#END-> nest-service-mariadb
+#BEGIN-> nest-service-rabbitmq
+   queue-rabbitmq:
+       container_name: wppod-queue-rabbitmq
+       dns:
+           - 8.8.8.8 
+           - 8.8.4.4
+       image: inkton/nest.rabbitmq
+       volumes:
+           - .:/var/app
+       ports:
+           - "5672"
+           - "15672"
+       environment:
+           NEST_APP_SERVICE : queue
+           NEST_APP_TAG : wppod
+           NEST_APP_TAG_CAP : Wppod
+           NEST_APP_NAME : "West Point Pod"
+           NEST_APP_ID : 8906
+           NEST_APP_TYPE : uniflow
+           NEST_FOLDER_APP : /var/app
+           NEST_FOLDER_SOURCE : /var/app/source
+           NEST_FOLDER_PUBLISH : /var/app/publish
+           NEST_FOLDER_HOME : /usr/local/nest
+           NEST_FOLDER_UPLOADS : /var/app/uploads
+           NEST_FOLDER_DOWNLOADS : /var/app/downloads
+           NEST_SERVICES_PASSWORD : aiping71
+#END-> nest-service-rabbitmq
+#BEGIN-> nest-app-cafecontroller
+   app-cafecontroller:
+       container_name: wppod-app-cafecontroller
+       image: inkton/nest.net:2.0.0-jessie 
+       working_dir: /var/app
+       volumes:
+           - .:/var/app:rw
+       ports:
+           - "22"
+           - "5000"
+       dns:
+           - 8.8.8.8
+           - 8.8.4.4 
+       tty: true
+       environment:
+           NEST_APP_ID : 8906
+           NEST_APP_TAG : wppod
+           NEST_APP_TAG_CAP : Wppod
+           NEST_APP_NAME : "West Point Pod"
+           NEST_APP_TYPE : uniflow
+           NEST_APP_PORT : 5000
+           NEST_ID : 8913
+           NEST_TAG : cafecontroller
+           NEST_TAG_CAP : Cafecontroller
+           NEST_NAME : Café Controller
+           NEST_PLATFORM_TAG : api
+           NEST_FOLDER_APP : /var/app
+           NEST_FOLDER_SOURCE : /var/app/source
+           NEST_FOLDER_SOURCE_SHARED : /var/app/source/shared
+           NEST_FOLDER_PUBLISH : /var/app/publish
+           NEST_FOLDER_LOG : /var/app/log
+           NEST_FOLDER_TREE : /var/app
+           NEST_FOLDER_UPLOADS : /var/app/uploads
+           NEST_FOLDER_DOWNLOADS : /var/app/downloads
+           NEST_FOLDER_TWIGS : /var/app/nest/twigs
+           NEST_FOLDER_TWIG_UTILS : /var/app/nest/utils
+           NEST_FOLDER_TWIG_FRAMEWORKS : /var/app/nest/frameworks   
+           NEST_CUSHION_ID : -1
+           NEST_CUSHION_INDEX : 0
+           NEST_CUSHION_MEMORY : 256m
+           NEST_CONTAINER_TYPE : test
+           NEST_CONTACT_ID : 8905
+           NEST_CONTACT_EMAIL : john@nest.yt
+           NEST_CONTACT_USER_ID : 8901
+           NEST_CONTACT_KEY : LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBb0x5Q1AyQVZVT2luS1MrNDF3N3U4ZnJNN1pjRmZ3Z2Q5ZEU0Z3Z0OG9UdTNQSWtVCkZ4cnZFRlR4WjNOd0x1czZ0ZnNNM2dxSjVpR2pXYi9XR2xCbEhaVGNMcXJjL21NMzVEeEZFVEVJQkxuNVJYSWEKRmRxRjBCUG9LSitVWFZRSjE5akxxQzNuaStXRjc1UElvN29kalBBZUZnV3ZwTDlId3RrWDM2bURjVVFvWVlBYgpGVC9xS0xvSE1vdVk4VnZmazFzR3lSMGp6dDBZM0lTeE5pQUxWR0t2ZXI3TDhvYXEycTZwd1lSa0QvRTdrMHdrCmJCL2lUc1ZFQjdicDBFQjlzb0Z1YmdBRVZ2ZWVLNDBPQUdST1oybEVOeDYvYTdLTlJBZDVnYzhsbGw3dWRNODcKdkovK25rTjVONmJmT21mRkgya3dkSXYrQXdYLzQwcWtwYkRCa1FJREFRQUJBb0lCQUFpNVVvUm9EYUFma0hzTwp5UVI3SGdMcUx0Y3lYQzBCM3NacHZaeDJVOVJZYm1DTnZCWm84dEs3R1lNWTQ5ellEWTYwK29UT281OW04ZnU4CkNyM1E0VHdTeVVTTEo0VnpFeVNERk9pUzliRnorcENIV2QwWHlDMTc5eHpGVklNZ1BZeUdpcjh0QnFVMEp1blMKNW8va1dSZytMQlBiNlNXUzhDMG1KVUtSYTczbzlCV21CSk1pTGU1bTkybVhrRmp0dkx4VDRUR3ZjSWFzM0VGRwozWUJMYzVzMXdYeEFtYllRNlNPc1hoM3FsaWdJNGM0eGRrNUdCVU9tS3J2cWFCcnhmeEZKc1lJc3NhcFdZSWhlCkJ3cjZxMVlwdGY3dFdvQ09UMVBQNFE3eHJqOXZUZlZHY2NBUmplNk9mdURHMlc4SWhyekR3aEVLL1VOVkxpTGoKWHFVbHMvVUNnWUVBejNvMDlDd1lLV2ZOTGZVeUxhRkZtSHNaV3hOMGN3R3hnVVZmRDBPcEhWOU0vSkFEbzJMdAp3eEFtRzFGanpqekZXRTYrL3hJYlNLeHFKYVlWbmZuZjRwcnpUbjQ2Qlo5RU94cGJCcDcrVWN5NERSZmlPcVAzCnVYYmZmRDBwMkxwNTEvSTQrRUpRdjMvQVI5NitDbDNodjFGZytjaDlPeEk0RVZTZEQ1MmNlMWNDZ1lFQXhsUGoKMjU1U3lXdVRRaUlBaWljaEsyR2ZWdEMvRHU1U0xHcUVOOW5JTVE3MzJsczNHRDlnaVp5Qjh6K2o3VG1DMXdiLwpRWEJ6Q1Z0S0xZK3VaTGJQbFg1cktWL1JPK1Axcm5CZlYwUjhvb0pLYmYxaWozQTZGSDZNblNEQVJvUnBJRUdqCjc2cTVWTmlyaVgzc0RoWXN5NkdwbFlzOEp5dzRhaks4SjJJRWdWY0NnWUVBamFYS1YxVnZYWDFmcUZ1NVdVdTgKWHdEVDY4a1pmSmNRWDhoRHdRRVppVk1TRlhBZys4QkR3U1BhVUZZOXhJVGEycEpRZFlZZ0dIcVZzWVIxUjdoYgpzTExISDdTdjJqekU4WERwNmxoTUd2NmdQVmdyL0lzTFNwU3N1WDVzZm1tNVc4UWtQdUhQalI0ajRTMWlJMk83CkJzb0JZaWNOMEhGODArQW5wb3lkVTlzQ2dZRUFyNC9IWHJ2eUVQYzNiZzFuYU9SbWlsNXFqSkZRNzhpcjJVR1oKTlUrRjFWZW90QlNXMnRJUGhRR1VUMTRBb0ppT2FBWjdvdFFHSVR3OGw4UmUzaXl0NlduMU5yVHBKUmtRZkpCZwo5WUZjeXdhSEdJSjY0dnEzanpqUEJMRGZSQTBtZWpWaEIyR2JtYTRMZXpTSzU1VmRwZ3kvYisvSEdlNGRLblVxCjlibmd2eFVDZ1lBSkVta05NYkp5UEhrUy9qbW5YNHZkSEJwSDVqWkMrQVpWcFZLNmpIMVE0UmYzSk5MQVJQZ0kKbzJoQ2FtYlFKVHBvTUxIV2t3VVpKcFpHZkdPQkNVUnREY05tRDFBcGJMejNPWVk0UStTNWlRdnpaTWJDeUJvKwphUFYycFlSTWxuUHQ4RWJlTWl1WDE1bVJodnp1ZVR3dXRZY0Z1Y2pxSGhic1JteVkwazJQdUE9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQ==
+           NEST_TREE_KEY : MTA4LjYxLjIwMi4xMzkgc3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFDNzZ3TVZuQ1l4S21tYU9wNjdSVWhMYW5wOVd6aTlVRXAwait6bGhpeUpkZ1EvWDFWZHBoQTdqeTFzKzBEWHBwSjdYODMxVlZ3U2FKb1JaaTF3ZDkvdy9CTTFvdnBzUVNNOTM2UkFrbTRvYW92aE1EMncyVU9CYmtIcGo3U2JhUTNjcTZPeHRGQW5WbXRsQ21qMGt2MEZJKytRS2thQWhkdzVUaEZKbjMxcmtEeklvellVNWxrVEhoMXN5c2tNOTAwWXRpeTM0aHBIQi9VclRkR2RjS3g3dmdNdWJxWGxyUmpCdnFjSFgxM3Y3VktkTlo1V0gwcUwzOWRZWlBqT1hpK0k3TXpWbmxBSFFmNXZqRytxWktvelRTRWpmMk9FMXd4VTRTSkhGVlFNckgzbytaMjJZck5SZmJGckZ5Rm5mUEpQb1llT1VQRjMvNlhWQnJBUWZHSEgKd3Bwb2QubmVzdGFwcC55dCBzc2gtcnNhIEFBQUFCM056YUMxeWMyRUFBQUFEQVFBQkFBQUJBUUM3NndNVm5DWXhLbW1hT3A2N1JVaExhbnA5V3ppOVVFcDBqK3psaGl5SmRnUS9YMVZkcGhBN2p5MXMrMERYcHBKN1g4MzFWVndTYUpvUlppMXdkOS93L0JNMW92cHNRU005MzZSQWttNG9hb3ZoTUQydzJVT0Jia0hwajdTYmFRM2NxNk94dEZBblZtdGxDbWowa3YwRkkrK1FLa2FBaGR3NVRoRkpuMzFya0R6SW96WVU1bGtUSGgxc3lza005MDBZdGl5MzRocEhCL1VyVGRHZGNLeDd2Z011YnFYbHJSakJ2cWNIWDEzdjdWS2ROWjVXSDBxTDM5ZFlaUGpPWGkrSTdNelZubEFIUWY1dmpHK3FaS296VFNFamYyT0Uxd3hVNFNKSEZWUU1ySDNvK1oyMllyTlJmYkZyRnlGbmZQSlBvWWVPVVBGMy82WFZCckFRZkdISA==
+           NEST_TREE_EXTERNAL_IP : 108.61.202.139
+           NEST_SERVICES_PASSWORD : aiping71
+           NEST_MYSQL_HOST : wppod-db-mariadb
+           NEST_RABBITMQ_HOST : wppod-queue-rabbitmq 
+#END-> nest-app-cafecontroller
+#BEGIN-> nest-worker-stockallocator
+   worker-stockallocator:
+       container_name: wppod-worker-stockallocator
+       image: inkton/nest.net:2.0.0-jessie 
+       working_dir: /var/app
+       volumes:
+           - .:/var/app:rw
+       ports:
+           - "22"
+       dns:
+           - 8.8.8.8 
+           - 8.8.4.4 
+       tty: true
+       environment:
+           NEST_APP_ID : 8906
+           NEST_APP_TAG : wppod
+           NEST_APP_TAG_CAP : Wppod
+           NEST_APP_NAME : "West Point Pod"
+           NEST_APP_TYPE : uniflow
+           NEST_APP_PORT : 5000
+           NEST_ID : 8914
+           NEST_TAG : stockallocator
+           NEST_TAG_CAP : Stockallocator
+           NEST_NAME : Stock Allocator
+           NEST_PLATFORM_TAG : worker
+           NEST_FOLDER_APP : /var/app
+           NEST_FOLDER_SOURCE : /var/app/source
+           NEST_FOLDER_SOURCE_SHARED : /var/app/source/shared
+           NEST_FOLDER_PUBLISH : /var/app/publish
+           NEST_FOLDER_LOG : /var/app/log
+           NEST_FOLDER_TREE : /var/app
+           NEST_FOLDER_UPLOADS : /var/app/uploads
+           NEST_FOLDER_DOWNLOADS : /var/app/downloads
+           NEST_FOLDER_TWIGS : /var/app/nest/twigs
+           NEST_FOLDER_TWIG_UTILS : /var/app/nest/utils
+           NEST_FOLDER_TWIG_FRAMEWORKS : /var/app/nest/frameworks   
+           NEST_CUSHION_ID : -1
+           NEST_CUSHION_INDEX : 0
+           NEST_CUSHION_MEMORY : 256m
+           NEST_CONTAINER_TYPE : test
+           NEST_CONTACT_ID : 8905
+           NEST_CONTACT_EMAIL : john@nest.yt
+           NEST_CONTACT_USER_ID : 8901
+           NEST_CONTACT_KEY : LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBb0x5Q1AyQVZVT2luS1MrNDF3N3U4ZnJNN1pjRmZ3Z2Q5ZEU0Z3Z0OG9UdTNQSWtVCkZ4cnZFRlR4WjNOd0x1czZ0ZnNNM2dxSjVpR2pXYi9XR2xCbEhaVGNMcXJjL21NMzVEeEZFVEVJQkxuNVJYSWEKRmRxRjBCUG9LSitVWFZRSjE5akxxQzNuaStXRjc1UElvN29kalBBZUZnV3ZwTDlId3RrWDM2bURjVVFvWVlBYgpGVC9xS0xvSE1vdVk4VnZmazFzR3lSMGp6dDBZM0lTeE5pQUxWR0t2ZXI3TDhvYXEycTZwd1lSa0QvRTdrMHdrCmJCL2lUc1ZFQjdicDBFQjlzb0Z1YmdBRVZ2ZWVLNDBPQUdST1oybEVOeDYvYTdLTlJBZDVnYzhsbGw3dWRNODcKdkovK25rTjVONmJmT21mRkgya3dkSXYrQXdYLzQwcWtwYkRCa1FJREFRQUJBb0lCQUFpNVVvUm9EYUFma0hzTwp5UVI3SGdMcUx0Y3lYQzBCM3NacHZaeDJVOVJZYm1DTnZCWm84dEs3R1lNWTQ5ellEWTYwK29UT281OW04ZnU4CkNyM1E0VHdTeVVTTEo0VnpFeVNERk9pUzliRnorcENIV2QwWHlDMTc5eHpGVklNZ1BZeUdpcjh0QnFVMEp1blMKNW8va1dSZytMQlBiNlNXUzhDMG1KVUtSYTczbzlCV21CSk1pTGU1bTkybVhrRmp0dkx4VDRUR3ZjSWFzM0VGRwozWUJMYzVzMXdYeEFtYllRNlNPc1hoM3FsaWdJNGM0eGRrNUdCVU9tS3J2cWFCcnhmeEZKc1lJc3NhcFdZSWhlCkJ3cjZxMVlwdGY3dFdvQ09UMVBQNFE3eHJqOXZUZlZHY2NBUmplNk9mdURHMlc4SWhyekR3aEVLL1VOVkxpTGoKWHFVbHMvVUNnWUVBejNvMDlDd1lLV2ZOTGZVeUxhRkZtSHNaV3hOMGN3R3hnVVZmRDBPcEhWOU0vSkFEbzJMdAp3eEFtRzFGanpqekZXRTYrL3hJYlNLeHFKYVlWbmZuZjRwcnpUbjQ2Qlo5RU94cGJCcDcrVWN5NERSZmlPcVAzCnVYYmZmRDBwMkxwNTEvSTQrRUpRdjMvQVI5NitDbDNodjFGZytjaDlPeEk0RVZTZEQ1MmNlMWNDZ1lFQXhsUGoKMjU1U3lXdVRRaUlBaWljaEsyR2ZWdEMvRHU1U0xHcUVOOW5JTVE3MzJsczNHRDlnaVp5Qjh6K2o3VG1DMXdiLwpRWEJ6Q1Z0S0xZK3VaTGJQbFg1cktWL1JPK1Axcm5CZlYwUjhvb0pLYmYxaWozQTZGSDZNblNEQVJvUnBJRUdqCjc2cTVWTmlyaVgzc0RoWXN5NkdwbFlzOEp5dzRhaks4SjJJRWdWY0NnWUVBamFYS1YxVnZYWDFmcUZ1NVdVdTgKWHdEVDY4a1pmSmNRWDhoRHdRRVppVk1TRlhBZys4QkR3U1BhVUZZOXhJVGEycEpRZFlZZ0dIcVZzWVIxUjdoYgpzTExISDdTdjJqekU4WERwNmxoTUd2NmdQVmdyL0lzTFNwU3N1WDVzZm1tNVc4UWtQdUhQalI0ajRTMWlJMk83CkJzb0JZaWNOMEhGODArQW5wb3lkVTlzQ2dZRUFyNC9IWHJ2eUVQYzNiZzFuYU9SbWlsNXFqSkZRNzhpcjJVR1oKTlUrRjFWZW90QlNXMnRJUGhRR1VUMTRBb0ppT2FBWjdvdFFHSVR3OGw4UmUzaXl0NlduMU5yVHBKUmtRZkpCZwo5WUZjeXdhSEdJSjY0dnEzanpqUEJMRGZSQTBtZWpWaEIyR2JtYTRMZXpTSzU1VmRwZ3kvYisvSEdlNGRLblVxCjlibmd2eFVDZ1lBSkVta05NYkp5UEhrUy9qbW5YNHZkSEJwSDVqWkMrQVpWcFZLNmpIMVE0UmYzSk5MQVJQZ0kKbzJoQ2FtYlFKVHBvTUxIV2t3VVpKcFpHZkdPQkNVUnREY05tRDFBcGJMejNPWVk0UStTNWlRdnpaTWJDeUJvKwphUFYycFlSTWxuUHQ4RWJlTWl1WDE1bVJodnp1ZVR3dXRZY0Z1Y2pxSGhic1JteVkwazJQdUE9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQ==
+           NEST_TREE_KEY : MTA4LjYxLjIwMi4xMzkgc3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFDNzZ3TVZuQ1l4S21tYU9wNjdSVWhMYW5wOVd6aTlVRXAwait6bGhpeUpkZ1EvWDFWZHBoQTdqeTFzKzBEWHBwSjdYODMxVlZ3U2FKb1JaaTF3ZDkvdy9CTTFvdnBzUVNNOTM2UkFrbTRvYW92aE1EMncyVU9CYmtIcGo3U2JhUTNjcTZPeHRGQW5WbXRsQ21qMGt2MEZJKytRS2thQWhkdzVUaEZKbjMxcmtEeklvellVNWxrVEhoMXN5c2tNOTAwWXRpeTM0aHBIQi9VclRkR2RjS3g3dmdNdWJxWGxyUmpCdnFjSFgxM3Y3VktkTlo1V0gwcUwzOWRZWlBqT1hpK0k3TXpWbmxBSFFmNXZqRytxWktvelRTRWpmMk9FMXd4VTRTSkhGVlFNckgzbytaMjJZck5SZmJGckZ5Rm5mUEpQb1llT1VQRjMvNlhWQnJBUWZHSEgKd3Bwb2QubmVzdGFwcC55dCBzc2gtcnNhIEFBQUFCM056YUMxeWMyRUFBQUFEQVFBQkFBQUJBUUM3NndNVm5DWXhLbW1hT3A2N1JVaExhbnA5V3ppOVVFcDBqK3psaGl5SmRnUS9YMVZkcGhBN2p5MXMrMERYcHBKN1g4MzFWVndTYUpvUlppMXdkOS93L0JNMW92cHNRU005MzZSQWttNG9hb3ZoTUQydzJVT0Jia0hwajdTYmFRM2NxNk94dEZBblZtdGxDbWowa3YwRkkrK1FLa2FBaGR3NVRoRkpuMzFya0R6SW96WVU1bGtUSGgxc3lza005MDBZdGl5MzRocEhCL1VyVGRHZGNLeDd2Z011YnFYbHJSakJ2cWNIWDEzdjdWS2ROWjVXSDBxTDM5ZFlaUGpPWGkrSTdNelZubEFIUWY1dmpHK3FaS296VFNFamYyT0Uxd3hVNFNKSEZWUU1ySDNvK1oyMllyTlJmYkZyRnlGbmZQSlBvWWVPVVBGMy82WFZCckFRZkdISA==
+           NEST_TREE_EXTERNAL_IP : 108.61.202.139
+           NEST_SERVICES_PASSWORD : aiping71
+           NEST_MYSQL_HOST : wppod-db-mariadb
+           NEST_RABBITMQ_HOST : wppod-queue-rabbitmq 
+#END-> nest-worker-stockallocator
+

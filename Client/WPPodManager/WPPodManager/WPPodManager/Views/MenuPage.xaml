@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WPPodManager.Views.MenuPage"
+              Title="{Binding Title}"
+             x:Name="MenuPage">
+  <ContentPage.ToolbarItems>
+  	<ToolbarItem Text="Add Item" Clicked="AddItem_Clicked" />
+  </ContentPage.ToolbarItems>
+  <ContentPage.Content>
+     <StackLayout Padding="10">
+
+        <Picker x:Name="Menu" 
+                Title="Select the menu"                 
+                SelectedIndex="{Binding SelectedMenuIndex}">
+        </Picker>
+                
+        <ListView x:Name="MenuItemsListView"
+				ItemsSource="{Binding EditMenuItems}"
+                CachingStrategy="RecycleElement">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Padding="10">
+                <Label Text="{Binding Title}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="16"/>                  
+                <Label Text="{Binding FoodType}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="16"/>
+                <Label Text="{Binding Description}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="16"/>
+                <Label Text="{Binding Price}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="16"/>                  
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout> 
+  </ContentPage.Content>
+</ContentPage>
