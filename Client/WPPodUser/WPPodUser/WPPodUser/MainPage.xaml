@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WPPodUser"
+             xmlns:vm="clr-namespace:WPPodUser.ViewModels;"
+             x:Class="WPPodUser.MainPage">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackLayout Grid.Row="1" Grid.Column="1" Padding="10">
+            <Label Text="Visit Date"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="16"/>
+            <DatePicker x:Name="OrderDatePicker" 
+                        Format="dd-MM-YYYY" 
+                        MinimumDate="{Binding MinimumDate}" />
+        </StackLayout>
+
+        <StackLayout Grid.Row="2" Grid.Column="1" 
+            Padding="10" Orientation="Horizontal"
+            HorizontalOptions = "FillAndExpand">
+
+            <Picker x:Name="Menu"         
+                ItemsSource="{Binding EditMenus}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedMenu, Mode=TwoWay}"                    
+                WidthRequest="80"                    
+                VerticalOptions = "Center"
+                HorizontalOptions = "FillAndExpand">
+            </Picker>
+
+            <Picker x:Name="MenuItems"   
+                ItemsSource="{Binding EditMenuItems}"
+                ItemDisplayBinding="{Binding Title}"
+                SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"                    
+                WidthRequest="100"       
+                VerticalOptions = "Center"
+                HorizontalOptions = "FillAndExpand">
+            </Picker>
+            <Label Text="X"
+                VerticalOptions = "Center"
+                HorizontalOptions = "CenterAndExpand" />
+            <Entry x:Name="Serves" 
+                Keyboard="Numeric"
+                WidthRequest="30"       
+                VerticalOptions = "Center"
+                HorizontalOptions = "FillAndExpand"                   
+                Placeholder="Serves" />
+        </StackLayout>
+
+        <StackLayout Grid.Row="5" Grid.ColumnSpan="2" Orientation="Vertical" Padding="5,5,5,5" Spacing="10">
+            <Label FontSize="22">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="WPPodUser" FontAttributes="Bold" FontSize="22"/>
+                            <Span Text=" "/>
+                            <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}"/>
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+        
+    </Grid>
+    
+</ContentPage>

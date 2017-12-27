@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WPPodUser.BannerView"
+             Title="BannerView">
+
+    <StackLayout Grid.Row="1" Orientation="Vertical" Padding="50,200,15,200" Spacing="100">
+        <Label FontSize="22">
+            <Label.FormattedText>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span x:Name="Message" Text="Please wait ..." FontSize="22"/>
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <ActivityIndicator IsRunning="true" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="200" WidthRequest="200" />
+    </StackLayout>
+</ContentPage>
