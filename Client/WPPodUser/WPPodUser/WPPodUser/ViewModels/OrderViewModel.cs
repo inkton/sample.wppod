@@ -2,26 +2,29 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
-using Xamarin.Forms;
 using Inkton.Nester.Cloud;
+using WPPod.Models;
 
-namespace WPPod.ViewModels
+namespace WPPodUser.ViewModels
 {
     public class OrderViewModel : Inkton.Nester.ViewModels.ViewModel
     {
-        private ObservableCollection<Models.Menu> _menus;
-        private Models.Menu _selectedMenu;
+        private User _user;
+        private Order _order;
 
-        private ObservableCollection<Models.MenuItem> _menuItems;
-        private Models.MenuItem _selectedMenuItem;
+        private ObservableCollection<WPPod.Models.Menu> _menus;
+        private WPPod.Models.Menu _selectedMenu;
+
+        private ObservableCollection<WPPod.Models.MenuItem> _menuItems;
+        private WPPod.Models.MenuItem _selectedMenuItem;
 
         public OrderViewModel(Inkton.Nester.Models.App app = null)
             : base(app)
         {
-            _menus = new ObservableCollection<Models.Menu>();
-            _menuItems = new ObservableCollection<Models.MenuItem>();
+            _order = new Order();
+            _menus = new ObservableCollection<WPPod.Models.Menu>();
+            _menuItems = new ObservableCollection<WPPod.Models.MenuItem>();
         }
 
         public DateTime MinimumDate
@@ -29,9 +32,29 @@ namespace WPPod.ViewModels
             get { return DateTime.Now; }
         }
 
-        public Models.Order EditOrder { get; set; }
+        public User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                SetProperty(ref _user, value);
 
-        public ObservableCollection<Models.Menu> EditMenus
+                _user.UseEmailAsKey = false;
+            }
+        }
+
+        public Order EditOrder
+        {
+            get
+            {
+                return _order;
+            }
+        }
+
+        public ObservableCollection<WPPod.Models.Menu> EditMenus
         {
             get
             {
@@ -39,7 +62,7 @@ namespace WPPod.ViewModels
             }
         }
 
-        public Models.Menu SelectedMenu
+        public WPPod.Models.Menu SelectedMenu
         {
             get
             {
@@ -51,7 +74,7 @@ namespace WPPod.ViewModels
             }
         }
 
-        public ObservableCollection<Models.MenuItem> EditMenuItems
+        public ObservableCollection<WPPod.Models.MenuItem> EditMenuItems
         {
             get
             {
@@ -59,7 +82,7 @@ namespace WPPod.ViewModels
             }
         }
 
-        public Models.MenuItem SelectedMenuItem
+        public WPPod.Models.MenuItem SelectedMenuItem
         {
             get
             {
@@ -71,23 +94,26 @@ namespace WPPod.ViewModels
             }
         }
 
-        async public Task<int> LoadMenusAsync()
+        async public Task<ServerStatus> LoadMenusAsync()
         {
+            ServerStatus status = new ServerStatus(
+                ServerStatus.NEST_RESULT_ERROR);
+
             if (IsBusy)
-                return 0;
+                return status;
 
             IsBusy = true;
 
             try
             {
-                Models.Menu menuSeed = new Models.Menu();
+                WPPod.Models.Menu menuSeed = new WPPod.Models.Menu();
 
-                ServerStatus status = await ResultMultiple<Models.Menu>.WaitForObjectAsync(
+                status = await ResultMultiple<WPPod.Models.Menu>.WaitForObjectAsync(
                     NesterControl.DeployedApp, true, menuSeed, false);
 
                 if (status.Code >= 0)
                 {
-                    _menus = status.PayloadToList<Models.Menu>();
+                    _menus = status.PayloadToList<WPPod.Models.Menu>();
                     OnPropertyChanged("EditMenus");
                     SelectedMenu = _menus.FirstOrDefault();
 
@@ -104,13 +130,16 @@ namespace WPPod.ViewModels
                 IsBusy = false;
             }
 
-            return _menus.Count;
+            return status;
         }
 
-        async public Task<int> LoadMenuItemsAsync()
+        async public Task<ServerStatus> LoadMenuItemsAsync()
         {
+            ServerStatus status = new ServerStatus(
+                ServerStatus.NEST_RESULT_ERROR);
+
             if (IsBusy)
-                return 0;
+                return status;
 
             IsBusy = true;
 
@@ -118,16 +147,15 @@ namespace WPPod.ViewModels
             {
                 EditMenuItems.Clear();
 
-                Models.MenuItem menuItemSeed = new Models.MenuItem();
+                WPPod.Models.MenuItem menuItemSeed = new WPPod.Models.MenuItem();
                 menuItemSeed.Menu = _selectedMenu;
-                menuItemSeed.MenuId = menuItemSeed.Menu.Id;
 
-                ServerStatus status = await ResultMultiple<Models.MenuItem>.WaitForObjectAsync(
+                status = await ResultMultiple<WPPod.Models.MenuItem>.WaitForObjectAsync(
                     NesterControl.DeployedApp, true, menuItemSeed, false);
 
                 if (status.Code >= 0)
                 {
-                    _menuItems = status.PayloadToList<Models.MenuItem>();
+                    _menuItems = status.PayloadToList<WPPod.Models.MenuItem>();
                     OnPropertyChanged("EditMenuItems");
                     SelectedMenuItem = _menuItems.FirstOrDefault();
                 }
@@ -141,7 +169,46 @@ namespace WPPod.ViewModels
                 IsBusy = false;
             }
 
-            return _menuItems.Count;
+            return status;
+        }
+
+        async public Task<ServerStatus> SubmitOrderAsync()
+        {
+            ServerStatus status = new ServerStatus(
+                ServerStatus.NEST_RESULT_ERROR);
+
+            if (IsBusy)
+                return status;
+
+            IsBusy = true;
+
+            try
+            {
+                _order.User = _user;
+
+                string sss = Newtonsoft.Json.JsonConvert.SerializeObject(_order);
+
+                status = await ResultSingle<WPPod.Models.Order>.WaitForObjectAsync(
+                    false, _order, new CachedHttpRequest<WPPod.Models.Order>(
+                        NesterControl.DeployedApp.CreateAsync), false);
+
+                if (status.Code >= 0)
+                {
+                    _order = status.PayloadToObject<WPPod.Models.Order>();
+                    EditOrder.Items.Clear();
+                    OnPropertyChanged("EditOrder");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            return status;
         }
     }
 }

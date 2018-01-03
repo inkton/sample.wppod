@@ -1,31 +1,41 @@
 ﻿using System;
-
-using WPPodManager.Models;
-using WPPodManager.ViewModels;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using WPPodManager.ViewModels;
 
 namespace WPPodManager.Views
 {
     public partial class MenuPage : ContentPage
     {
         private MenuViewModel _viewModel;
+        private Inkton.Nester.Models.App _app;
 
         public MenuPage()
         {
             InitializeComponent();
 
+            Menu.SelectedIndexChanged += Menu_SelectedIndexChangedAsync;
+
             _viewModel = new MenuViewModel();
-
             BindingContext = _viewModel;
-
-            Menu.SelectedIndex = 0;
-            Menu.SelectedIndexChanged += Menu_SelectedIndexChanged;
         }
 
-        private void Menu_SelectedIndexChanged(object sender, EventArgs e)
+        public Inkton.Nester.Models.App App
         {
-            _viewModel.LoadMenuItemsCommand.Execute(null);
+            get { return _app; }
+            set { _app = value; }
+        }
+
+        public async Task SetupAsync()
+        {
+            _viewModel.EditApp = _app;
+
+            await _viewModel.LoadMenusAsync();
+        }
+
+        private async void Menu_SelectedIndexChangedAsync(object sender, EventArgs e)
+        {
+            await _viewModel.LoadMenuItemsAsync();
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)
@@ -33,20 +43,12 @@ namespace WPPodManager.Views
             await Navigation.PushAsync(new MenuItemPage());
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            Menu.Items.Clear();
-
-            await _viewModel.LoadMenusAsync();
-
-            foreach (Models.Menu menu in _viewModel.EditMenus)
-            {
-                Menu.Items.Add(menu.Name);
-            }
-
-            await _viewModel.LoadMenuItemsAsync();
+            Device.BeginInvokeOnMainThread(
+                async () => await SetupAsync());
         }
     }
 }

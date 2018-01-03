@@ -134,8 +134,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\rajitha\Documents\inkton\github\nester.library\Nester.Library\Nester.Library.csproj">
-      <Project>{c1a0011a-7493-4f5c-a132-8e48c0f3ba17}</Project>
+    <ProjectReference Include="..\..\..\..\..\nester.library\Nester.Library\Nester.Library.csproj">
+      <Project>{662a3ae9-85dd-4a7b-b320-a80ee9fca5d9}</Project>
       <Name>Nester.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\WPPodManager\WPPodManager.csproj">

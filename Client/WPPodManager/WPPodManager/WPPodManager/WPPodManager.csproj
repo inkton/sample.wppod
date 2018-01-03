@@ -34,6 +34,7 @@
     <None Include="Views\MainView.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\rajitha\Documents\inkton\github\nester.library\Nester.Library\Nester.Library.csproj" />
+    <ProjectReference Include="..\..\..\..\..\nester.library\Nester.Library\Nester.Library.csproj" />
+    <ProjectReference Include="..\..\..\WPPodShared\WPPodShared.csproj" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace WPPod.Models
 {
@@ -16,10 +14,10 @@ namespace WPPod.Models
             get { return _id.ToString(); }
         }
 
-        private long _id;
+        private long? _id = null;
 
         [JsonProperty("id")]
-        public long Id
+        public long? Id
         {
             get { return _id; }
             set { SetProperty(ref _id, value); }

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace WPPod.Models
 {
@@ -12,8 +11,6 @@ namespace WPPod.Models
 
     public class MenuItem : Inkton.Nester.Cloud.ManagedEntity
     {
-        private Menu _menu;
-
         public MenuItem()
             : base("menu_item")
         {
@@ -54,22 +51,32 @@ namespace WPPod.Models
             }
         }
 
-        public long? Id { get; set; }
+        private long? _id = null;
 
-        [JsonIgnore]
+        [JsonProperty("id")]
+        public long? Id
+        {
+            get { return _id; }
+            set { SetProperty(ref _id, value); }
+        }
+
+        [JsonProperty("menu_id")]
+        public long? MenuId
+        {
+            get {
+                if (_menu != null)
+                    return _menu.Id;
+                else
+                    return null;
+            }
+        }
+
+        private Menu _menu;
+
         public Menu Menu
         {
             get { return _menu; }
             set { SetProperty(ref _menu, value); }
-        }
-
-        private long _menuId;
-
-        [JsonProperty("menu_id")]
-        public long MenuId
-        {
-            get { return _menuId; }
-            set { SetProperty(ref _menuId, value); }
         }
 
         private string _title = string.Empty;

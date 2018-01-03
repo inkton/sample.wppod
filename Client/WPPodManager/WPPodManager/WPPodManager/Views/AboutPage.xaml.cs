@@ -16,18 +16,12 @@ namespace WPPodManager.Views
         {
             InitializeComponent();
 
-            Refresh.Clicked += Refresh_ClickedAsync;
-        }
-
-        private async void Refresh_ClickedAsync(object sender, EventArgs e)
-        {
-            await GetAnalyticsAsync();
-        }
-
-        public void Setup()
-        {
+            Fetch.Clicked += Fetch_ClickedAsync;
             _nesterControl = (Application.Current as INesterControl);
+        }
 
+        public async Task SetupAsync()
+        {
             _nesterControl.BaseModels.TargetViewModel.LogViewModel.SetupDiskSpaceSeries(
                 DiskSpaceData.Series[0]
                 );
@@ -41,26 +35,40 @@ namespace WPPodManager.Views
                 );
 
             BindingContext = _nesterControl.BaseModels.TargetViewModel;
+
+            await GetAnalyticsAsync();
+        }
+
+        private async void Fetch_ClickedAsync(object sender, EventArgs e)
+        {
+            await GetAnalyticsAsync();
         }
 
         public async Task GetAnalyticsAsync()
         {
             try
             {
-                /*
-                DateTime unixEpoch = new DateTime(1970, 1, 1);
-                DateTime analyzeDateUTC = DateTime.Now.ToUniversalTime();
-                DateTime startTime = analyzeDateUTC - new TimeSpan(5, 0, 0);
-                DateTime endTime = analyzeDateUTC + new TimeSpan(1, 0, 0);
+                // Show events during the last hour
+                int hoursToCheck;
+                if (!int.TryParse(Hours.Text, out hoursToCheck))
+                {
+                    await DisplayAlert("Nester", "Pleas enter a valid number of hours",
+                        _nesterControl.BaseModels.TargetViewModel.EditApp.Name, "OK");
+                }
 
-                await _nesterControl.BaseModels.TargetViewModel.LogViewModel.QueryMetricsAsync(
-                    (long)(startTime - unixEpoch).TotalMilliseconds,
-                    (long)(endTime - unixEpoch).TotalMilliseconds);
-                */
+                DateTime unixEpoch = new DateTime(1970, 1, 1);
+                DateTime pastTrackInHours = DateTime.Now.ToUniversalTime().AddHours(-1 * hoursToCheck);
+
+                long unixEpochSinceHourAgo = (long)(pastTrackInHours - unixEpoch).TotalSeconds;
 
                 await _nesterControl.BaseModels.TargetViewModel
-                    .LogViewModel.QueryAsync(true, 50);
-                NestLogs.SelectedItem = (NestLogs.ItemsSource as ObservableCollection<NestLog>).Last();
+                    .LogViewModel.QueryAsync(unixEpochSinceHourAgo);
+
+                if ((NestLogs.ItemsSource as ObservableCollection<NestLog>).Any())
+                {
+                    NestLogs.SelectedItem = 
+                        (NestLogs.ItemsSource as ObservableCollection<NestLog>).Last();
+                }
             }
             catch (Exception e)
             {

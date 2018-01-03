@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="row vertical-center-row">
+    <div class="row">
+        <div class="col-md-3 col-centered">
+        </div>        
+        <div class="col-md-6 col-centered">
+            <div class="title">
+                wppod system
+            </div>                
+        </div>
+        <div class="col-md-3 col-centered">
+        </div>        
+    </div>
+	
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
