@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Resources;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Inkton.Nester;
 using Inkton.Nester.Models;
@@ -8,7 +9,7 @@ using Inkton.Nester.ViewModels;
 using Inkton.Nester.Cloud;
 using Inkton.Nester.Cache;
 using WPPodManager.Views;
-using System.Threading.Tasks;
+using WPPodManager.ViewModels;
 
 namespace WPPodManager
 {
@@ -20,7 +21,11 @@ namespace WPPodManager
         private StorageService _storage;
         private BaseModels _baseModels;
         private Permit _permit;
+
         private AboutPage _aboutPage;
+        private MenuPage _menuPage;
+        private OrderPage _orderPage;
+        private StockPage _stockPage;
 
         public App()
         {
@@ -39,8 +44,34 @@ namespace WPPodManager
                 new AuthViewModel(),
                 new PaymentViewModel(),
                 new AppViewModel());
+
             _aboutPage = new AboutPage();
-            SetMainPage(_aboutPage);
+            _menuPage = new MenuPage();
+            _orderPage = new OrderPage();
+            _stockPage = new StockPage();
+
+            Current.MainPage = new TabbedPage
+            {
+                Children =
+                {
+                    new NavigationPage(_aboutPage)
+                    {
+                        Title = "About"
+                    },
+                    new NavigationPage(_menuPage)
+                    {
+                        Title = "Cafe Menu"
+                    },
+                    new NavigationPage(_orderPage)
+                    {
+                        Title = "Orders"
+                    },
+                    new NavigationPage(_stockPage)
+                    {
+                        Title = "Stocks"
+                    }
+                }
+            };
         }
 
         public BaseModels BaseModels
@@ -113,12 +144,14 @@ namespace WPPodManager
             wppodApp.Owner = _user;
             wppodApp.Tag = "wppod";
             targetModel.EditApp = wppodApp;
-
             await targetModel.InitAsync();
             Target = targetModel;
 
-            _aboutPage.Setup();
-            await _aboutPage.GetAnalyticsAsync();
+            await _aboutPage.SetupAsync();
+
+            _menuPage.App = wppodApp;
+            _orderPage.App = wppodApp;
+            _stockPage.App = wppodApp;
         }
 
         protected override async void OnStart()
@@ -135,7 +168,7 @@ namespace WPPodManager
                 _permit.Owner = User;
                 _permit.Password = "helloworld";
 
-                var loadingPage = new BannerView("Starting ..");
+                var loadingPage = new BannerView("Please wait ..");
                 await loadingPage.Show(MainPage.Navigation);
 
                 _baseModels.AuthViewModel.Permit = _permit;
@@ -159,26 +192,6 @@ namespace WPPodManager
             {
                 await MainPage.DisplayAlert("Nester", ex.Message, "OK");
             }
-        }
-
-        public static void SetMainPage(AboutPage aboutPage)
-        {
-            Current.MainPage = new TabbedPage
-            {
-                Children =
-                {
-                    new NavigationPage(aboutPage)
-                    {
-                        Title = "About",
-                        //Icon = Device.OnPlatform("tab_about.png",null,null)
-                    },
-                    new NavigationPage(new MenuPage())
-                    {
-                        Title = "Cafe Menu",
-                        //Icon = Device.OnPlatform("tab_feed.png",null,null)
-                    }
-                }
-            };
         }
     }
 }

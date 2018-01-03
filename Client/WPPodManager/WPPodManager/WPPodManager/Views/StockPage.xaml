@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WPPodManager.Views.StockPage"
+             Title="{Binding Title}" >
+<ContentPage.ToolbarItems>
+</ContentPage.ToolbarItems>
+<ContentPage.Content>
+    <StackLayout Padding="10">
+            <Label FontSize="22" Text="Required Stocks" Style="{DynamicResource ListItemTextStyle}"/>
+            <DatePicker x:Name="SelectedDate" VerticalOptions="CenterAndExpand"  />
+            <ListView x:Name="StockItemsListView"
+	            ItemsSource="{Binding StockItems}"
+                CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <StackLayout Orientation="Horizontal" WidthRequest="120">
+                                <Label Text="{Binding Stock.Name}"
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemTextStyle}"
+                                    FontSize="16"/>
+                                <Label Text="{Binding Quantity, StringFormat='{0:00}'}"                        
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="16"/>
+                                <Label Text="{Binding Unit}"
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemTextStyle}"
+                                    FontSize="14"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+            <Button Margin="0,10,0,0"
+                x:Name="Refresh"
+                Text="Refresh" 
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"/>
+        
+        </StackLayout>
+</ContentPage.Content>
+</ContentPage>

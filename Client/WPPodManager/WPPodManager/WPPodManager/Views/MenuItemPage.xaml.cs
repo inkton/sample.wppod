@@ -1,20 +1,18 @@
 ﻿using System;
-
-using WPPodManager.Models;
-
 using Xamarin.Forms;
+using WPPod.Models;
 
 namespace WPPodManager.Views
 {
     public partial class MenuItemPage : ContentPage
     {
-        public Models.MenuItem Item { get; set; }
+        public WPPod.Models.MenuItem Item { get; set; }
 
         public MenuItemPage()
         {
             InitializeComponent();
 
-            Item = new Models.MenuItem
+            Item = new WPPod.Models.MenuItem
             {
                 Title = "Menu Item title",
                 Description = "This is a nice description",

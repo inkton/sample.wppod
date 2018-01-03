@@ -5,9 +5,6 @@
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              xmlns:vm="clr-namespace:WPPodManager.ViewModels;"
              Title="{Binding Title}">
-  <ContentPage.BindingContext>
-    <vm:AboutViewModel />
-  </ContentPage.BindingContext>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="9*"/>
@@ -181,25 +178,31 @@
                         YBindingPath="Value" />
             </chart:SfChart>
         </Grid>
-        
-        <Button Margin="0,10,0,0"
-            x:Name="Refresh"
-            Text="Refresh" 
-            BackgroundColor="{StaticResource Primary}"
-            TextColor="White"/>
-        </StackLayout>
-      <StackLayout Grid.Row="1" Orientation="Vertical" Padding="5,5,5,5" Spacing="10">
-        <Label FontSize="22">
-          <Label.FormattedText>
-            <FormattedString>
-              <FormattedString.Spans>
-                <Span Text="WPPodManager" FontAttributes="Bold" FontSize="22"/>
-                <Span Text=" "/>
-                <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}"/>
-              </FormattedString.Spans>
-            </FormattedString>
-          </Label.FormattedText>
-        </Label>
-      </StackLayout>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand" >
+                <Button
+                    x:Name="Fetch"
+                    Text="Refresh" 
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    VerticalOptions="Center"/>
+                <Label Text="Hours" VerticalOptions="Center"/>
+                <Entry x:Name="Hours" Text="1" VerticalOptions="Center"/>
+            </StackLayout>
+
+        </StackLayout>      
+    <StackLayout Grid.Row="1" Orientation="Vertical" Padding="5,5,5,5" Spacing="10">
+    <Label FontSize="22">
+        <Label.FormattedText>
+        <FormattedString>
+            <FormattedString.Spans>
+            <Span Text="WPPodManager" FontAttributes="Bold" FontSize="22"/>
+            <Span Text=" "/>
+            <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}"/>
+            </FormattedString.Spans>
+        </FormattedString>
+        </Label.FormattedText>
+    </Label>
+    </StackLayout>
   </Grid>
 </ContentPage>

@@ -8,18 +8,19 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using Inkton.Nester.Cloud;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using WPPod.Models;
 using WPPodUser.ViewModels;
-using WPPod.ViewModels;
 
 namespace WPPodUser
 {
     public partial class LoginView : ContentPage
     {
+        UserViewModel _userViewModel;
+
         // From here https://www.codeproject.com/Articles/22777/Email-Address-Validation-Using-Regular-Expression
         public const string MatchEmailPattern =
                   @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
@@ -32,7 +33,10 @@ namespace WPPodUser
         public LoginView()
         {
             InitializeComponent();
-            BindingContext = new UserViewModel();
+
+            _userViewModel = new UserViewModel();
+
+            BindingContext = _userViewModel;
         }
 
         public static bool IsValidEmail(string email)
@@ -52,10 +56,20 @@ namespace WPPodUser
                 var user = new User
                 {
                     Email = EmailEntry.Text,
-                    Pin = PinEntry.Text
+                    Pin = PinEntry.Text,
+                    UseEmailAsKey = true
                 };
 
+                ServerStatus status = await _userViewModel.GetUserAsync(user);
+
+                if (status.Code < 0)
+                {
+                    status = await _userViewModel.CreateUserAsync(user);
+                }
+
                 OrderViewModel ordersViewModel = new OrderViewModel();
+                ordersViewModel.User = status.PayloadToObject<User>();
+
                 await ordersViewModel.LoadMenusAsync();
                 Navigation.InsertPageBefore(new WPPodUser.MainPage(ordersViewModel), this);
                 await Navigation.PopAsync();

@@ -152,8 +152,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\rajitha\Documents\inkton\github\nester.library\Nester.Library\Nester.Library.csproj">
-      <Project>{83f9126c-6a2d-4381-9589-a34734ce7232}</Project>
+    <ProjectReference Include="..\..\..\..\..\nester.library\Nester.Library\Nester.Library.csproj">
+      <Project>{6f02c7a8-1f30-4370-a4da-05481c7f9cce}</Project>
       <Name>Nester.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WPPodShared\WPPodShared.csproj">
