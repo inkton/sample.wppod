@@ -14,8 +14,8 @@
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
+                <RowDefinition Height="40*"/>
+                <RowDefinition Height="60*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -73,16 +73,6 @@
                     <chart:SfChart.Title>
                         <chart:ChartTitle Text="Disk Space" Font="Bold,12" />
                     </chart:SfChart.Title>
-
-                    <chart:SfChart.Legend>
-                        <chart:ChartLegend DockPosition="Left"
-                          Orientation="Vertical">
-                            <chart:ChartLegend.LabelStyle>
-                                <chart:ChartLegendLabelStyle Font="None,10">
-                                </chart:ChartLegendLabelStyle>
-                            </chart:ChartLegend.LabelStyle>
-                        </chart:ChartLegend>
-                    </chart:SfChart.Legend>
 
                     <chart:SfChart.PrimaryAxis>
                         <chart:CategoryAxis>
