@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>WPPodManager.Droid</RootNamespace>
     <AssemblyName>WPPodManager.Android</AssemblyName>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -153,7 +153,7 @@
       <Name>Nester.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\WPPodManager\WPPodManager.csproj">
-      <Project>{eb6bde6d-58a5-4f01-bc23-c8d2726fe4bb}</Project>
+      <Project>{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}</Project>
       <Name>WPPodManager</Name>
     </ProjectReference>
   </ItemGroup>
