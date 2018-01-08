@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPPodManager", "WPPodManager\WPPodManager\WPPodManager.csproj", "{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}"
 EndProject
@@ -39,8 +39,8 @@ Global
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x64.ActiveCfg = Debug|x64
-		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x64.Build.0 = Debug|x64
+		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x64.Build.0 = Debug|Any CPU
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Debug|x86.Build.0 = Debug|Any CPU
 		{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -163,8 +163,8 @@ Global
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x64.ActiveCfg = Debug|x64
-		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x64.Build.0 = Debug|x64
+		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x64.Build.0 = Debug|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Debug|x86.Build.0 = Debug|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -175,12 +175,15 @@ Global
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|iPhone.Build.0 = Release|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x64.ActiveCfg = Release|x64
-		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x64.Build.0 = Release|x64
+		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x64.ActiveCfg = Release|Any CPU
+		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x64.Build.0 = Release|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B83650D-89F3-4D41-B87B-F0B33DD26702}
 	EndGlobalSection
 EndGlobal
