@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPodManager", "WPPodManager\WPPodManager\WPPodManager.csproj", "{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPPodManager", "WPPodManager\WPPodManager\WPPodManager.csproj", "{EB85D51A-FCFB-47B5-B8B5-511962FC5D51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPodManager.Android", "WPPodManager\WPPodManager.Android\WPPodManager.Android.csproj", "{1452117D-521D-4D51-9983-AFF17AB0DF53}"
 EndProject
@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPodManager.iOS", "WPPodMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPodManager.UWP", "WPPodManager\WPPodManager.UWP\WPPodManager.UWP.csproj", "{6CF0F8C8-9858-4251-8C2F-F905AA95B94A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPodShared", "..\WPPodShared\WPPodShared.csproj", "{DB15403D-40ED-440D-84A9-8F6BFCD2A0E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPPodShared", "..\WPPodShared\WPPodShared.csproj", "{DB15403D-40ED-440D-84A9-8F6BFCD2A0E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nester.Library", "..\..\..\nester.library\Nester.Library\Nester.Library.csproj", "{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nester.Library", "..\..\..\nester.library\Nester.Library\Nester.Library.csproj", "{662A3AE9-85DD-4A7B-B320-A80EE9FCA5D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,7 +91,7 @@ Global
 		{1452117D-521D-4D51-9983-AFF17AB0DF53}.Release|x86.ActiveCfg = Release|Any CPU
 		{1452117D-521D-4D51-9983-AFF17AB0DF53}.Release|x86.Build.0 = Release|Any CPU
 		{1452117D-521D-4D51-9983-AFF17AB0DF53}.Release|x86.Deploy.0 = Release|Any CPU
-		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|Any CPU.ActiveCfg = Debug|iPhone
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|ARM.ActiveCfg = Debug|iPhone
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|iPhone.Build.0 = Debug|iPhone
@@ -107,7 +107,6 @@ Global
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Release|x64.ActiveCfg = Release|iPhone
 		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Release|x86.ActiveCfg = Release|iPhone
-		{F2F4C320-4B90-4D5C-8873-53CEE48E1CFE}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{6CF0F8C8-9858-4251-8C2F-F905AA95B94A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{6CF0F8C8-9858-4251-8C2F-F905AA95B94A}.Debug|ARM.ActiveCfg = Debug|ARM
 		{6CF0F8C8-9858-4251-8C2F-F905AA95B94A}.Debug|ARM.Build.0 = Debug|ARM
