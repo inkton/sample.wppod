@@ -24,7 +24,7 @@
     <EmbeddedResource Remove="Views\MainView.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.121934" />
+    <PackageReference Include="Xamarin.Forms" Version="2.4.0.74863" />
     <PackageReference Include="Xamarin.Forms.Pages" Version="2.3.0.38-pre2" />
     <PackageReference Include="Xamarin.Forms.Theme.Base" Version="1.0.0.43-pre1" />
     <PackageReference Include="Xamarin.Forms.Theme.Light" Version="1.0.0.43-pre1" />

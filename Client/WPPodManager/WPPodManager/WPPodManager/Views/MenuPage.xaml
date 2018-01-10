@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WPPodManager.Views.MenuPage"
-             Title="{Binding Title}"
+             Title="Food Menu"
              x:Name="MenuPage">
   <ContentPage.ToolbarItems>
   	<ToolbarItem Text="Add Item" Clicked="AddItem_Clicked" />

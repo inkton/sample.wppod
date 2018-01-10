@@ -9,7 +9,6 @@ using Inkton.Nester.ViewModels;
 using Inkton.Nester.Cloud;
 using Inkton.Nester.Cache;
 using WPPodManager.Views;
-using WPPodManager.ViewModels;
 
 namespace WPPodManager
 {
@@ -22,6 +21,7 @@ namespace WPPodManager
         private BaseModels _baseModels;
         private Permit _permit;
 
+        private BannerView _progressView;
         private AboutPage _aboutPage;
         private MenuPage _menuPage;
         private OrderPage _orderPage;
@@ -50,28 +50,25 @@ namespace WPPodManager
             _orderPage = new OrderPage();
             _stockPage = new StockPage();
 
+            _progressView = new BannerView("Please wait ..");
+            _aboutPage = new AboutPage();
+            _menuPage = new MenuPage();
+            _orderPage = new OrderPage();
+            _stockPage = new StockPage();
+
             Current.MainPage = new TabbedPage
             {
                 Children =
                 {
-                    new NavigationPage(_aboutPage)
+                    new NavigationPage(_progressView)
                     {
-                        Title = "About"
-                    },
-                    new NavigationPage(_menuPage)
-                    {
-                        Title = "Cafe Menu"
-                    },
-                    new NavigationPage(_orderPage)
-                    {
-                        Title = "Orders"
-                    },
-                    new NavigationPage(_stockPage)
-                    {
-                        Title = "Stocks"
+                        Title = "Starting"
                     }
                 }
             };
+
+            Device.BeginInvokeOnMainThread(
+                async () => await InitAsync());
         }
 
         public BaseModels BaseModels
@@ -154,10 +151,8 @@ namespace WPPodManager
             _stockPage.App = wppodApp;
         }
 
-        protected override async void OnStart()
+        private async Task InitAsync()
         {
-            base.OnStart();
-
             try
             {
                 // the app owner/admin
@@ -168,16 +163,13 @@ namespace WPPodManager
                 _permit.Owner = User;
                 _permit.Password = "helloworld";
 
-                var loadingPage = new BannerView("Please wait ..");
-                await loadingPage.Show(MainPage.Navigation);
-
                 _baseModels.AuthViewModel.Permit = _permit;
                 ServerStatus status = await _baseModels.AuthViewModel
                     .QueryTokenAsync(false);
 
                 if (status.Code != 0)
                 {
-                    loadingPage.Text = "Failed to authorize the app";
+                    _progressView.Text = "Failed to authorize the app";
                 }
                 else
                 {
@@ -185,7 +177,35 @@ namespace WPPodManager
 
                     await ResetViewAsync();
 
-                    await loadingPage.Hide();
+                    (Current.MainPage as TabbedPage).Children.Clear();
+
+                    (Current.MainPage as TabbedPage).Children.Add(
+                        new NavigationPage(_aboutPage)
+                        {
+                            Title = "About"
+                        }
+                    );
+
+                    (Current.MainPage as TabbedPage).Children.Add(
+                        new NavigationPage(_menuPage)
+                        {
+                            Title = "Cafe Menu"
+                        }
+                    );
+
+                    (Current.MainPage as TabbedPage).Children.Add(
+                        new NavigationPage(_orderPage)
+                        {
+                            Title = "Orders"
+                        }
+                    );
+
+                    (Current.MainPage as TabbedPage).Children.Add(
+                        new NavigationPage(_stockPage)
+                        {
+                            Title = "Stocks"
+                        }
+                    );
                 }
             }
             catch (Exception ex)
