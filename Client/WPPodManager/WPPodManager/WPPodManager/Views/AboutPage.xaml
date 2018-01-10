@@ -4,7 +4,7 @@
              x:Class="WPPodManager.Views.AboutPage"
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              xmlns:vm="clr-namespace:WPPodManager.ViewModels;"
-             Title="{Binding Title}">
+             Title="About">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="9*"/>
