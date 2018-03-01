@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Inkton.Nester;
 using Inkton.Nester.Models;
 using System.Threading.Tasks;
+using Inkton.Nester.ViewModels;
 
 namespace WPPodManager.Views
 {
@@ -22,18 +23,6 @@ namespace WPPodManager.Views
 
         public async Task SetupAsync()
         {
-            _nesterControl.BaseModels.TargetViewModel.LogViewModel.SetupDiskSpaceSeries(
-                DiskSpaceData.Series[0]
-                );
-
-            _nesterControl.BaseModels.TargetViewModel.LogViewModel.SetupCPUSeries(
-                CpuData.Series[0],
-                CpuData.Series[1],
-                CpuData.Series[2],
-                CpuData.Series[3],
-                CpuData.Series[4]
-                );
-
             BindingContext = _nesterControl.BaseModels.TargetViewModel;
 
             await GetAnalyticsAsync();
@@ -60,6 +49,12 @@ namespace WPPodManager.Views
                 DateTime pastTrackInHours = DateTime.Now.ToUniversalTime().AddHours(-1 * hoursToCheck);
 
                 long unixEpochSinceHourAgo = (long)(pastTrackInHours - unixEpoch).TotalSeconds;
+
+                _nesterControl.BaseModels
+                    .TargetViewModel.LogViewModel.QueryIndexs =
+                            LogViewModel.QueryIndex.QueryIndexNestLog |
+                            LogViewModel.QueryIndex.QueryIndexDiskSpace |
+                            LogViewModel.QueryIndex.QueryIndexCpu;
 
                 await _nesterControl.BaseModels.TargetViewModel
                     .LogViewModel.QueryAsync(unixEpochSinceHourAgo);

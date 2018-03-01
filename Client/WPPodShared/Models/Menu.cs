@@ -4,6 +4,9 @@ namespace WPPod.Models
 {
     public class Menu : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id = null;
+        private string _name;
+
         public Menu()
             : base("menu")
         {
@@ -14,16 +17,12 @@ namespace WPPod.Models
             get { return _id.ToString(); }
         }
 
-        private long? _id = null;
-
         [JsonProperty("id")]
         public long? Id
         {
             get { return _id; }
             set { SetProperty(ref _id, value); }
         }
-
-        private string _name;
 
         [JsonProperty("name")]
         public string Name

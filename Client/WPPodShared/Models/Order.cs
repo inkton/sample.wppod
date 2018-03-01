@@ -7,10 +7,15 @@ namespace WPPod.Models
 {
     public class Order : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id = null;
+        private User _user;
+        private DateTime _visitDate;
+        private ObservableCollection<OrderItem> _orderItems;
+
         public Order()
             : base("order")
         {
-            _orderItems = new List<OrderItem>();
+            _orderItems = new ObservableCollection<OrderItem>();
         }
 
         public override string Key
@@ -48,8 +53,6 @@ namespace WPPod.Models
             }
         }
 
-        private long? _id = null;
-
         [JsonProperty("id")]
         public long? Id
         {
@@ -63,16 +66,12 @@ namespace WPPod.Models
             get { return _user.Id; }
         }
 
-        private User _user;
-
         [JsonIgnore]
         public User User
         {
             get { return _user; }
             set { SetProperty(ref _user, value); }
         }
-
-        private DateTime _visitDate;
 
         [JsonProperty("visit_date")]
         public DateTime VisitDate
@@ -81,10 +80,8 @@ namespace WPPod.Models
             set { SetProperty(ref _visitDate, value); }
         }
 
-        private List<OrderItem> _orderItems;
-
-        [JsonProperty("items")]
-        public List<OrderItem> Items
+        [JsonIgnore]
+        public ObservableCollection<OrderItem> Items
         {
             get { return _orderItems; }
             set { SetProperty(ref _orderItems, value); }

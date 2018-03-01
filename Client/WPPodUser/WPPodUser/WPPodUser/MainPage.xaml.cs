@@ -41,11 +41,7 @@ namespace WPPodUser
             }
             else
             {
-                WPPod.Models.OrderItem orderItem = new WPPod.Models.OrderItem();
-                orderItem.MenuItem = _viewModel.SelectedMenuItem;
-                orderItem.Quantity = serves;
-
-                _viewModel.EditOrder.Items.Add(orderItem);                
+                _viewModel.AddOrderItem(serves);
             }
         }
 

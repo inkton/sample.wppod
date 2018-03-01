@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="0885a8a6-9633-4a02-af14-fcea015dac9b"
-    Publisher="CN=rajitha"
+    Name="ec0cc741-fd3e-485c-81be-68815c480690"
+    Publisher="CN=Pierce Boggan"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="0885a8a6-9633-4a02-af14-fcea015dac9b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WPPodManager.UWP</DisplayName>
-    <PublisherDisplayName>rajitha</PublisherDisplayName>
+    <PublisherDisplayName>Pierce Boggan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -26,7 +26,7 @@
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
-  
+
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"

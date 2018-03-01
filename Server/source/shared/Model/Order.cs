@@ -17,7 +17,7 @@ namespace Wppod.Models
         [JsonIgnore]
         public User User { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [JsonProperty("visit_date")]
         public DateTime VisitDate { get; set; }
 
         [JsonProperty("items")]    

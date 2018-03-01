@@ -4,12 +4,54 @@ namespace WPPod.Models
 {
     public class OrderItem : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id = null;
+        private long? _orderId = null;
+        private Order _order;
+        private long? _menuId = null;
+        private Menu _menu;
+        private long? _menuItemId = null;
+        private MenuItem _item;
+        private int _quantity;
+
         public OrderItem()
             : base("order_item")
         {
         }
 
-        private long? _id = null;
+        public override string Key
+        {
+            get { return _id.ToString(); }
+        }
+
+        override public string Collection
+        {
+            get
+            {
+                if (_order != null)
+                {
+                    return _order.CollectionKey + base.Collection;
+                }
+                else
+                {
+                    return base.Collection;
+                }
+            }
+        }
+
+        override public string CollectionKey
+        {
+            get
+            {
+                if (_order != null)
+                {
+                    return _order.CollectionKey + base.CollectionKey;
+                }
+                else
+                {
+                    return base.CollectionKey;
+                }
+            }
+        }
 
         [JsonProperty("id")]
         public long? Id
@@ -37,46 +79,56 @@ namespace WPPod.Models
         [JsonProperty("order_id")]
         public long? OrderId
         {
-            get
-            {
-                if (_order != null)
-                    return _order.Id;
-                else
-                    return null;
-            }
+            get { return _orderId; }
+            set { SetProperty(ref _orderId, value); }
         }
-
-        private Order _order;
 
         [JsonIgnore]
         public Order Order
         {
             get { return _order; }
-            set { SetProperty(ref _order, value); }
+            set
+            {
+                SetProperty(ref _order, value);
+                _orderId = _order.Id;
+            }
+        }
+
+        [JsonProperty("menu_id")]
+        public long? MenuId
+        {
+            get { return _menuId; }
+            set { SetProperty(ref _menuId, value); }
+        }
+
+        [JsonIgnore]
+        public Menu Menu
+        {
+            get { return _menu; }
+            set
+            {
+                SetProperty(ref _menu, value);
+                _menuId = _menu.Id;
+            }
         }
 
         [JsonProperty("menu_item_id")]
         public long? MenuItemId
         {
-            get
-            {
-                if (_item != null)
-                    return _item.Id;
-                else
-                    return null;
-            }
+            get { return _menuItemId; }
+            set { SetProperty(ref _menuItemId, value); }
         }
 
-        private MenuItem _item;
-
-        [JsonProperty("menu_item")]
+        [JsonIgnore]
         public MenuItem MenuItem
         {
             get { return _item; }
-            set { SetProperty(ref _item, value); }
+            set
+            {
+                SetProperty(ref _item, value);
+                _menuItemId = _item.Id;
+            }
         }
-
-        private int _quantity;
 
         [JsonProperty("quantity")]
         public int Quantity

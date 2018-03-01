@@ -16,8 +16,8 @@
             <Label Text="Price" />
             <Entry Text="{Binding Item.Price}" />
 
-            <Label Text="Photo" />
-            <Entry Text="{Binding Item.Photo}" />
+            <Label Text="Photo URL" />
+            <Entry Text="{Binding Item.PhotoURL}" />
 
             <Picker x:Name="FoodType" Title="Food Type" 
                     ItemsSource="{Binding FoodTypes}" >

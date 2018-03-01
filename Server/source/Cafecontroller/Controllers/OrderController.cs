@@ -42,15 +42,12 @@ namespace Wppod.Controllers
     {
         private readonly CafeContext _cafeContext;
         private readonly ILogger _logger;
-        private readonly Runtime _runtime;        
 
         public OrderController(CafeContext cafeContext,
             ILogger<OrderController> logger)
         {
             _cafeContext = cafeContext;
             _logger = logger;
-            _runtime = new Runtime(QueueMode.Server);
-            _runtime.QueueSendType = "Order";
         }
 
         [HttpGet]
@@ -61,12 +58,18 @@ namespace Wppod.Controllers
 
             try
             {
-                DateTime checkTime = DateTime.Parse(date);
+                System.Linq.IQueryable<Wppod.Models.Order> items = null;
 
-                var items = _cafeContext.Orders
-                    .Include(searchOrder => searchOrder.Items)
-                        .ThenInclude(searchOrder => searchOrder.MenuItem)
-                    .Where(searchOrder => searchOrder.VisitDate.Date == checkTime.Date);
+                if (date != null && date.Length > 0)
+                {
+                    DateTime checkTime = DateTime.Parse(date);
+                    items = _cafeContext.Orders
+                        .Where(searchOrder => searchOrder.VisitDate.Date == checkTime.Date);
+                }
+                else
+                {
+                    items = _cafeContext.Orders;
+                }
 
                 if (items == null)
                 {
@@ -84,5 +87,33 @@ namespace Wppod.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("{order_id}/order_items")] 
+        public IActionResult GetItems(long order_id)
+        {
+            Cloud.Result<OrderItem> result = new Cloud.Result<OrderItem>();
+            
+            try
+            {                
+                var items = _cafeContext.OrderItems.Where(
+                    orderItem => orderItem.Order.Id == order_id);
+
+                if (items == null)
+                {
+                    result.SetFail("Items not found");
+                }
+                else
+                {
+                    result.SetSuccess("order_items", items.ToList());                
+                }
+            }
+            catch (System.Exception e)
+            {
+                result.SetFail(e, "GetItems");
+            }
+
+            return Ok(result);
+        }        
     }
 }

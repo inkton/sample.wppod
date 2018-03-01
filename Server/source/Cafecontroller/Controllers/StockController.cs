@@ -41,14 +41,12 @@ namespace Wppod.Controllers
     {
         private readonly CafeContext _cafeContext;
         private readonly ILogger _logger;
-        private readonly Runtime _runtime;        
         
         public StockController(CafeContext cafeContext,
             ILogger<UserController> logger)
         {
             _cafeContext = cafeContext;
             _logger = logger;
-            _runtime = new Runtime();
         }
         
         [HttpGet]

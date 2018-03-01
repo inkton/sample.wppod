@@ -24,6 +24,7 @@ using System;
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -46,8 +47,8 @@ namespace Wppod.Work
                 {
                     case "MenuItem":
                         return JsonConvert.DeserializeObject<MenuItem>(message);
-                    case "Order":
-                        return JsonConvert.DeserializeObject<Order>(message);                    
+                    case "OrderItem":
+                        return JsonConvert.DeserializeObject<OrderItem>(message);                    
                 }
             }
 
@@ -81,34 +82,34 @@ namespace Wppod.Work
             }        
         }
 
-        static async void AllocateStockAsync(Runtime runtime, Order order)
+        static async void AllocateStockAsync(Runtime runtime, OrderItem orderItem)
         {
             // Allocate stock
             using (var cafeContext = CafeContextFactory.Create(runtime))
-            {                
-                foreach (OrderItem item in order.Items)
+            {
+                orderItem.MenuItem = cafeContext.MenuItems.FirstOrDefault(
+                        searchMenuItem => searchMenuItem.Id == orderItem.MenuItemId);
+
+                switch(orderItem.MenuItem.FoodType)
                 {
-                    switch(item.MenuItem.FoodType)
-                    {
-                        case FoodType.HotBeverage:
-                            AllocateHelper.StockUpForHotBeverage(
-                                cafeContext, item.Quantity);
-                            break;
+                    case FoodType.HotBeverage:
+                        AllocateHelper.StockUpForHotBeverage(
+                            cafeContext, orderItem.Quantity);
+                        break;
 
-                        case FoodType.Sandwich:
-                            AllocateHelper.StockUpForSandwich(
-                                cafeContext, item.Quantity);
-                            break;
+                    case FoodType.Sandwich:
+                        AllocateHelper.StockUpForSandwich(
+                            cafeContext, orderItem.Quantity);
+                        break;
 
-                        case FoodType.Salad:
-                            AllocateHelper.StockUpForSalad(
-                                cafeContext, item.Quantity);
-                            break;
+                    case FoodType.Salad:
+                        AllocateHelper.StockUpForSalad(
+                            cafeContext, orderItem.Quantity);
+                        break;
 
-                    }
-                    
-                    await cafeContext.SaveChangesAsync();                                    
-                }                                                          
+                }
+                
+                await cafeContext.SaveChangesAsync();                                    
             }
         }
 
@@ -140,9 +141,9 @@ namespace Wppod.Work
                         {
                             CreateStockAsync(runtime, message as MenuItem);
                         }
-                        else if (message is Order)
+                        else if (message is OrderItem)
                         {
-                            AllocateStockAsync(runtime, message as Order);
+                            AllocateStockAsync(runtime, message as OrderItem);
                         }
                     }
                 }

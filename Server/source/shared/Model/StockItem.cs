@@ -13,14 +13,13 @@ namespace Wppod.Models
         public Int32? Id { get; set; }
 
         [JsonProperty("stock_id")]
-        public Int32? StockId { get; set; }  
+        public Int32 StockId { get; set; }  
 
         [JsonIgnore]
         public Stock Stock { get; set; }     
 
         [JsonProperty("date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        public DateTime TimeRequired { get; set; }
 
         [JsonProperty("quantity")]
         public decimal Quantity { get; set; }

@@ -94,6 +94,16 @@ namespace WPPodUser.ViewModels
             }
         }
 
+        public void AddOrderItem(int serves)
+        {
+            WPPod.Models.OrderItem orderItem = new WPPod.Models.OrderItem();
+            orderItem.Menu = SelectedMenu;
+            orderItem.MenuItem = SelectedMenuItem;
+            orderItem.Quantity = serves;
+
+            EditOrder.Items.Add(orderItem);
+        }
+
         async public Task<ServerStatus> LoadMenusAsync()
         {
             ServerStatus status = new ServerStatus(
@@ -186,15 +196,29 @@ namespace WPPodUser.ViewModels
             {
                 _order.User = _user;
 
-                string sss = Newtonsoft.Json.JsonConvert.SerializeObject(_order);
-
                 status = await ResultSingle<WPPod.Models.Order>.WaitForObjectAsync(
                     false, _order, new CachedHttpRequest<WPPod.Models.Order>(
                         NesterControl.DeployedApp.CreateAsync), false);
 
                 if (status.Code >= 0)
                 {
+                    var orderItems = _order.Items;
                     _order = status.PayloadToObject<WPPod.Models.Order>();
+
+                    foreach (var orderItem in orderItems)
+                    {
+                        orderItem.Order = _order;
+
+                        status = await ResultSingle<WPPod.Models.OrderItem>.WaitForObjectAsync(
+                            false, orderItem, new CachedHttpRequest<WPPod.Models.OrderItem>(
+                                NesterControl.DeployedApp.CreateAsync), false);
+
+                        if (status.Code < 0)
+                        {
+                            return status;
+                        }
+                    }
+
                     EditOrder.Items.Clear();
                     OnPropertyChanged("EditOrder");
                 }

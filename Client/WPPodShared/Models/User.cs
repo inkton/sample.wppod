@@ -4,6 +4,11 @@ namespace WPPod.Models
 {
     public class User : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id;
+        private string _email;
+        private string _name;
+        private string _pin;
+
         public User()
             : base("user")
         {
@@ -13,15 +18,14 @@ namespace WPPod.Models
 
         public override string Key
         {
-            get {
+            get
+            {
                 if (UseEmailAsKey)
                     return Email;
                 else
                     return _id.ToString();
             }
         }
-
-        private long? _id;
 
         [JsonProperty("id")]
         public long? Id
@@ -31,12 +35,24 @@ namespace WPPod.Models
         }
 
         [JsonProperty("email")]
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return _email; }
+            set { SetProperty(ref _email, value); }
+        }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
+        }
 
         [JsonProperty("pin")]
-        public string Pin { get; set; }
+        public string Pin
+        {
+            get { return _pin; }
+            set { SetProperty(ref _pin, value); }
+        }
     }
 }

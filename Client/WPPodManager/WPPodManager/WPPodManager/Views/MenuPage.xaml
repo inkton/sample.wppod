@@ -15,18 +15,28 @@
             ItemDisplayBinding="{Binding Name}"
             SelectedItem="{Binding SelectedMenu, Mode=TwoWay}">
         </Picker>
-      <ListView x:Name="MenuItemsListView"
+        <ListView x:Name="MenuItemsListView" HasUnevenRows="True"
 	        ItemsSource="{Binding EditMenuItems}"
             CachingStrategy="RecycleElement">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-                <StackLayout Padding="10" Orientation="Horizontal">
-                    <StackLayout Orientation="Vertical" WidthRequest="120">
+                <Grid VerticalOptions="FillAndExpand" 
+                      HorizontalOptions="FillAndExpand"
+                      ColumnSpacing="0" >
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0" Orientation="Vertical" >
                         <Label Text="{Binding Title}"
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemTextStyle}"
-                            FontSize="16"/>
+                            FontAttributes="Bold"                               
+                            FontSize="14"/>
                         <Label Text="{Binding FoodType}"
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemTextStyle}"
@@ -34,18 +44,21 @@
                         <Label Text="{Binding Price, StringFormat='$ {0}'}"                        
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
-                            FontSize="16"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Vertical" WidthRequest="200">
-                       <Label Text="{Binding Description}"
-                            LineBreakMode="WordWrap"
+                            FontAttributes="Bold" 
                             FontSize="14"/>
                     </StackLayout>
-                    <StackLayout Orientation="Vertical" WidthRequest="300">
-                            <Image Source="{Binding Photo}" />
+
+                    <StackLayout Grid.Column="1" Orientation="Vertical" >
+                        <Label Text="{Binding Description}"
+                            LineBreakMode="WordWrap"
+                            FontSize="12"/>
                     </StackLayout>
-               </StackLayout>
-            </ViewCell>
+
+                    
+                                    <Image Grid.Column="2" Source="{Binding PhotoURL}"  />
+                    
+                </Grid>
+             </ViewCell>
         </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

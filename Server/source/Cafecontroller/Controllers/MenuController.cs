@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2017 Inkton.
 
-    Permission is hereby granted, free of charge, to any person obtaining
+    Permission is hereby granted, free of    charge, to any person obtaining
     a copy of this software and associated documentation files (the "Software"),
     to deal in the Software without restriction, including without limitation
     the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -81,6 +81,29 @@ namespace Wppod.Controllers
                 Cloud.Result<MenuItem> result = new Cloud.Result<MenuItem>();
 
                 result.SetSuccess("menu_items", items);
+
+                return Ok(result);
+            }
+            catch (System.Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("{menu_id}/menu_items/{menu_item_id}")]
+        public IActionResult GetItem(int menu_id, int menu_item_id)
+        {
+            try
+            {
+                MenuItem menuItem = _cafeContext.MenuItems.FirstOrDefault(
+                        searchMenuItem =>
+                            searchMenuItem.MenuId == menu_id &&
+                            searchMenuItem.Id == menu_item_id );
+                
+                Cloud.Result<MenuItem> result = new Cloud.Result<MenuItem>();
+
+                result.SetSuccess("menu_item", menuItem);
 
                 return Ok(result);
             }

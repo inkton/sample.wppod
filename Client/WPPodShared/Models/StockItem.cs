@@ -5,6 +5,13 @@ namespace WPPod.Models
 {
     public class StockItem : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id = null;
+        private long? _stockId = null;
+        private Stock _stock;
+        private DateTime _timeRequired;
+        private double _quantity = 0;
+        private string _unit = string.Empty;
+
         public StockItem()
             : base("stock_item")
         {
@@ -48,8 +55,6 @@ namespace WPPod.Models
             }
         }
 
-        private long? _id = null;
-
         [JsonProperty("id")]
         public long? Id
         {
@@ -60,24 +65,20 @@ namespace WPPod.Models
         [JsonProperty("stock_id")]
         public long? StockId
         {
-            get
-            {
-                if (_stock != null)
-                    return _stock.Id;
-                else
-                    return null;
-            }
+            get { return _stockId; }
+            set { SetProperty(ref _stockId, value); }
         }
 
-        private Stock _stock;
-
+        [JsonIgnore]
         public Stock Stock
         {
             get { return _stock; }
-            set { SetProperty(ref _stock, value); }
+            set
+            {
+                SetProperty(ref _stock, value);
+                _stockId = _stock.Id;
+            }
         }
-
-        private DateTime _timeRequired;
 
         [JsonProperty("time_required")]
         public DateTime TimeRequired
@@ -86,16 +87,12 @@ namespace WPPod.Models
             set { SetProperty(ref _timeRequired, value); }
         }
 
-        private double _quantity = 0;
-
         [JsonProperty("quantity")]
         public double Quantity
         {
             get { return _quantity; }
             set { SetProperty(ref _quantity, value); }
         }
-
-        private string _unit = string.Empty;
 
         [JsonProperty("unit")]
         public string Unit

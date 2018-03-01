@@ -86,19 +86,19 @@ namespace Wppod.Work
             if (stock != null)
             {
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 2, Unit = "slices", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 2, Unit = "slices", TimeRequired = DateTime.Now });
             }
             stock = GetStock(cafeContext, "Butter");
             if (stock != null)
             {
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 5, Unit = "g", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 5, Unit = "g", TimeRequired = DateTime.Now });
             }
             stock = GetStock(cafeContext, "Cheese");
             if (stock != null)
             {
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 100, Unit = "g", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 100, Unit = "g", TimeRequired = DateTime.Now });
             }
         }
 
@@ -108,21 +108,21 @@ namespace Wppod.Work
 
             stock = GetStock(cafeContext, "Lettuce");
             if (stock != null)
-            {
+            {   
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 2, Unit = "slices", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 50, Unit = "g", TimeRequired = DateTime.Now });
             }
             stock = GetStock(cafeContext, "Dressing");
             if (stock != null)
             {
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 5, Unit = "g", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 5, Unit = "ml", TimeRequired = DateTime.Now });
             }
-            stock = GetStock(cafeContext, "Tomato");
+            stock = GetStock(cafeContext, "Tomato");    
             if (stock != null)
             {
                 cafeContext.StockItems.Add(
-                    new StockItem { Stock = stock, Quantity = 100, Unit = "g", TimeRequired = DateTime.Now });
+                    new StockItem { Stock = stock, Quantity = serves * 100, Unit = "g", TimeRequired = DateTime.Now });
             }
         }
     }

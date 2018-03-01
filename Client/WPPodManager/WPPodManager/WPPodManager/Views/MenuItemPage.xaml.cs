@@ -17,7 +17,7 @@ namespace WPPodManager.Views
                 Title = "Menu Item title",
                 Description = "This is a nice description",
                 Price = 0,
-                Photo = "path to menu item image"
+                PhotoURL = "path to menu item image"
             };
 
             BindingContext = this;

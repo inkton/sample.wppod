@@ -37,9 +37,9 @@ namespace Wppod.Models
         [JsonProperty("price")]
         public decimal Price { get; set; }
 
-        [JsonProperty("photo")]
+        [JsonProperty("photo_url")]
         [StringLength(256, MinimumLength = 2)]
-        public string Photo { get; set; }
+        public string PhotoUrl { get; set; }
 
         [JsonProperty("food_type")]
         [JsonConverter(typeof(StringEnumConverter))]        

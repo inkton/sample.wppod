@@ -68,106 +68,133 @@
                     
             </StackLayout>
 
-                <chart:SfChart x:Name="DiskSpaceData" Grid.Row="1" Grid.Column="0" >
-
-                    <chart:SfChart.Title>
-                        <chart:ChartTitle Text="Disk Space" Font="Bold,12" />
-                    </chart:SfChart.Title>
-
-                    <chart:SfChart.PrimaryAxis>
-                        <chart:CategoryAxis>
-                            <chart:CategoryAxis.Title>
-                                <chart:ChartAxisTitle Text="Memory"></chart:ChartAxisTitle>
-                            </chart:CategoryAxis.Title>
-                        </chart:CategoryAxis>
-                    </chart:SfChart.PrimaryAxis>
-
-                    <chart:SfChart.SecondaryAxis>
-                        <chart:NumericalAxis>
-                            <chart:NumericalAxis.Title>
-                                <chart:ChartAxisTitle Text="Time"></chart:ChartAxisTitle>
-                            </chart:NumericalAxis.Title>
-                        </chart:NumericalAxis>
-                    </chart:SfChart.SecondaryAxis>
-
-                    <chart:PieSeries
-                       XBindingPath="Key"
-                       YBindingPath="Value"
-                       EnableAnimation="false">
-
-                        <chart:PieSeries.ColorModel>
-                            <chart:ChartColorModel Palette="Custom" >
-                                <chart:ChartColorModel.CustomBrushes>
-                                    <Color>#34495E</Color>
-                                    <Color>#27AE60</Color>
-                                    <Color>#E67E22</Color>
-                                    <Color>#44BBFF</Color>
-                                </chart:ChartColorModel.CustomBrushes>
-                            </chart:ChartColorModel>
-                        </chart:PieSeries.ColorModel>
-
-                    </chart:PieSeries>
-
-              </chart:SfChart>
-
-              <chart:SfChart Grid.Row="1" Grid.Column="1" x:Name="CpuData" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <chart:SfChart x:Name="DiskSpaceData" Grid.Row="1" Grid.Column="0" >
 
                 <chart:SfChart.Title>
-                    <chart:ChartTitle Text="CPU utilization" Font="Bold,12">
-                    </chart:ChartTitle>
+                    <chart:ChartTitle Text="Disk Space" Font="Bold,12" />
                 </chart:SfChart.Title>
 
                 <chart:SfChart.Legend>
-                    <chart:ChartLegend DockPosition="Bottom" Orientation="Horizontal">
+                    <chart:ChartLegend DockPosition="Left"
+                        Orientation="Vertical">
                         <chart:ChartLegend.LabelStyle>
-                            <chart:ChartLegendLabelStyle Font="None,10">
+                            <chart:ChartLegendLabelStyle  Font="None,10">
                             </chart:ChartLegendLabelStyle>
                         </chart:ChartLegend.LabelStyle>
                     </chart:ChartLegend>
                 </chart:SfChart.Legend>
 
                 <chart:SfChart.PrimaryAxis>
-                    <chart:DateTimeAxis IntervalType="Minutes" >
-                        <chart:DateTimeAxis.LabelStyle>
-                            <chart:ChartAxisLabelStyle LabelFormat="HH:mm:ss" Font="None,10"/>
-                        </chart:DateTimeAxis.LabelStyle>
-                    </chart:DateTimeAxis>
+                    <chart:CategoryAxis>
+                        <chart:CategoryAxis.Title>
+                            <chart:ChartAxisTitle Text="Memory"></chart:ChartAxisTitle>
+                        </chart:CategoryAxis.Title>
+                    </chart:CategoryAxis>
                 </chart:SfChart.PrimaryAxis>
 
-                <chart:SfChart.SecondaryAxis >
+                <chart:SfChart.SecondaryAxis>
                     <chart:NumericalAxis>
-                        <chart:NumericalAxis.LabelStyle>
-                            <chart:ChartAxisLabelStyle Font="None,10"/>
-                        </chart:NumericalAxis.LabelStyle>
-                    </chart:NumericalAxis  >
+                        <chart:NumericalAxis.Title>
+                            <chart:ChartAxisTitle Text="Time"></chart:ChartAxisTitle>
+                        </chart:NumericalAxis.Title>
+                    </chart:NumericalAxis>
                 </chart:SfChart.SecondaryAxis>
 
-                <chart:StackingArea100Series
-                        Color="#34495E"
-                        XBindingPath="Time"
-                        YBindingPath="Value" />
+                <chart:PieSeries
+                    ItemsSource="{Binding LogViewModel.DiskSpaceSeries.DataLog.Fields}"
+                    XBindingPath="Key"
+                    YBindingPath="Value"
+                    EnableAnimation="false">
 
-                <chart:StackingArea100Series
-                        Color="#2980B9"
-                        XBindingPath="Time"
-                        YBindingPath="Value" />
+                    <chart:PieSeries.ColorModel>
+                        <chart:ChartColorModel Palette="Custom" >
+                            <chart:ChartColorModel.CustomBrushes>
+                                <Color>#34495E</Color>
+                                <Color>#27AE60</Color>
+                                <Color>#E67E22</Color>
+                                <Color>#44BBFF</Color>
+                            </chart:ChartColorModel.CustomBrushes>
+                        </chart:ChartColorModel>
+                    </chart:PieSeries.ColorModel>
 
-                <chart:StackingArea100Series
-                        Color="#27AE60"
-                        XBindingPath="Time"
-                        YBindingPath="Value" />
+                </chart:PieSeries>
 
-                <chart:StackingArea100Series
-                        Color="#E67E22"
-                        XBindingPath="Time"
-                        YBindingPath="Value" />
-
-                <chart:StackingArea100Series
-                        Color="#44BBFF"
-                        XBindingPath="Time"
-                        YBindingPath="Value" />
             </chart:SfChart>
-        </Grid>
+
+            <chart:SfChart x:Name="CpuData" Grid.Row="1" Grid.Column="1" >
+
+                    <chart:SfChart.Title>
+                        <chart:ChartTitle Text="CPU utilization" Font="Bold,12">
+                        </chart:ChartTitle>
+                    </chart:SfChart.Title>
+
+                    <chart:SfChart.Legend>
+                        <chart:ChartLegend DockPosition="Bottom" Orientation="Horizontal">
+                            <chart:ChartLegend.LabelStyle>
+                                <chart:ChartLegendLabelStyle Font="None,10">
+                                </chart:ChartLegendLabelStyle>
+                            </chart:ChartLegend.LabelStyle>
+                        </chart:ChartLegend>
+                    </chart:SfChart.Legend>
+
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:DateTimeAxis IntervalType="Minutes" >
+                            <chart:DateTimeAxis.LabelStyle>
+                                <chart:ChartAxisLabelStyle LabelFormat="HH:mm:ss" Font="None,10"/>
+                            </chart:DateTimeAxis.LabelStyle>
+                        </chart:DateTimeAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis >
+                        <chart:NumericalAxis>
+                            <chart:NumericalAxis.LabelStyle>
+                                <chart:ChartAxisLabelStyle Font="None,10"/>
+                            </chart:NumericalAxis.LabelStyle>
+                        </chart:NumericalAxis  >
+                    </chart:SfChart.SecondaryAxis>
+
+                    <chart:StackingArea100Series
+                      ItemsSource="{Binding LogViewModel.CpuSeriesUser}"
+                      EnableTooltip="True"
+                      Label="User"
+                      Color="#34495E"
+                      XBindingPath="Time"
+                      YBindingPath="Value" />
+
+                    <chart:StackingArea100Series
+                      ItemsSource="{Binding LogViewModel.CpuSeriesSystem}"
+                      Label="System"
+                      EnableTooltip="True"                
+                      Color="#2980B9"
+                      XBindingPath="Time"
+                      YBindingPath="Value" />
+
+                    <chart:StackingArea100Series
+                      ItemsSource="{Binding LogViewModel.CpuSeriesIRQ}"
+                      Label="IRQ"         
+                      EnableTooltip="True"                
+                      Color="#27AE60"
+                      XBindingPath="Time"
+                      YBindingPath="Value" />
+
+                    <chart:StackingArea100Series
+                      ItemsSource="{Binding LogViewModel.CpuSeriesNice}"
+                      Label="Nice"        
+                      EnableTooltip="True"                
+                      Color="#E67E22"
+                      XBindingPath="Time"
+                      YBindingPath="Value" />
+
+                    <chart:StackingArea100Series
+                      ItemsSource="{Binding LogViewModel.CpuSeriesIOWait}"
+                      Label="IOWait"      
+                      EnableTooltip="True"                
+                      Color="#44BBFF"
+                      XBindingPath="Time"
+                      YBindingPath="Value" />
+
+                </chart:SfChart>
+            </Grid>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand" >
                 <Button

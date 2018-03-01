@@ -109,7 +109,7 @@ namespace WPPodUser
 
             Inkton.Nester.Models.App wppodApp = new Inkton.Nester.Models.App();
             wppodApp.Owner = _user;
-            wppodApp.Tag = "wppod";
+            wppodApp.Tag = WPPod.Platform.AppTag;
             targetModel.EditApp = wppodApp;
 
             await targetModel.InitAsync();
@@ -124,11 +124,11 @@ namespace WPPodUser
             {
                 // the app owner/admin
                 _user = new User();
-                _user.Email = "john@nest.yt";
+                _user.Email = WPPod.Platform.Email;
 
                 _permit = new Permit();
                 _permit.Owner = User;
-                _permit.Password = "helloworld";
+                _permit.Password = WPPod.Platform.Password;
 
                 var loadingPage = new BannerView("Please wait ...");
                 await loadingPage.Show(MainPage.Navigation);
@@ -145,16 +145,6 @@ namespace WPPodUser
             {
                 await MainPage.DisplayAlert("Nester", ex.Message, "OK");
             }
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
         }
     }
 }

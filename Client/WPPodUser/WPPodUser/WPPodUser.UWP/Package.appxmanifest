@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="0516bb9e-7350-4a98-87bc-244d4e846ab6"
-    Publisher="CN=rajitha"
+    Name="ec0cc741-fd3e-485c-81be-68815c480690"
+    Publisher="CN=Pierce Boggan"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="0516bb9e-7350-4a98-87bc-244d4e846ab6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WPPodUser.UWP</DisplayName>
-    <PublisherDisplayName>rajitha</PublisherDisplayName>
+    <PublisherDisplayName>Pierce Boggan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

@@ -49,7 +49,7 @@ namespace Wppod.Controllers
             _cafeContext = cafeContext;
             _logger = logger;
             _runtime = new Runtime(QueueMode.Server);
-            _runtime.QueueSendType = "Order";
+            _runtime.QueueSendType = "OrderItem";
         }
         
         [HttpGet]
@@ -65,7 +65,7 @@ namespace Wppod.Controllers
 
         [HttpGet]
         [Route("{email}")]        
-        public IActionResult Query(string email)
+        public IActionResult Get(string email)
         {
             Cloud.Result<Wppod.Models.User> result = 
                 new Cloud.Result<Wppod.Models.User>();
@@ -154,21 +154,10 @@ namespace Wppod.Controllers
                     }
                     else
                     {
-                        order.User = user; 
-
-                        foreach (var item in order.Items)
-                        {
-                            item.MenuItem = _cafeContext.MenuItems.FirstOrDefault(
-                                    searchMenuItem => searchMenuItem.Id == item.MenuItemId);
-                        }
-
+                        order.User = user;
                         _cafeContext.Orders.Add(order);
                         await _cafeContext.SaveChangesAsync();
-                        
-                        _runtime.SendToNest(
-                            JsonConvert.SerializeObject(order), 
-                            "stockallocator");
-                    
+                                            
                         result.SetSuccess("order", order);
                     }
                 }
@@ -179,6 +168,54 @@ namespace Wppod.Controllers
             }
             
             return Ok(result);            
-        }        
+        }    
+
+        [HttpPost]
+        [Route("{user_id}/orders/{order_id}/order_items")]  
+        public async Task<IActionResult> CreateOrderItemAsync(
+            long user_id, long order_id, [FromBody] OrderItem orderItem)
+        {
+            Cloud.Result<OrderItem> result = new Cloud.Result<OrderItem>();
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    result.SetFail("Invalid model state");
+                }
+                else
+                {
+                    _logger.LogInformation(string.Format(
+                        "Order Item Create request from user id {0} received by Nest-{1}.{2} at {3}. {4}", 
+                        user_id, _runtime.NestTag, _runtime.CushionIndex, DateTime.Now.ToString("t"),
+                        JsonConvert.SerializeObject(orderItem)));
+
+                    Wppod.Models.Order order = _cafeContext.Orders.FirstOrDefault( 
+                            searchOrder => searchOrder.Id == order_id);
+
+                    if (order == null)
+                    {
+                        result.SetFail("Order not found");
+                    }
+                    else
+                    {
+                        _cafeContext.OrderItems.Add(orderItem);
+                        await _cafeContext.SaveChangesAsync();
+                        
+                        _runtime.SendToNest(
+                            JsonConvert.SerializeObject(orderItem), 
+                            "stockallocator");
+                    
+                        result.SetSuccess("order_item", orderItem);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                result.SetFail(e, "CreateOrderAsync");
+            }
+            
+            return Ok(result);            
+        }                
     }
 }

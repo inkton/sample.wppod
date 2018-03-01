@@ -11,6 +11,15 @@ namespace WPPod.Models
 
     public class MenuItem : Inkton.Nester.Cloud.ManagedEntity
     {
+        private long? _id = null;
+        private Menu _menu;
+        private long? menuId = null;
+        private string _title = string.Empty;
+        private string _description = string.Empty;
+        private string _photoURL = string.Empty;
+        private double _price = 0;
+        private FoodType _foodType = FoodType.HotBeverage;
+
         public MenuItem()
             : base("menu_item")
         {
@@ -51,8 +60,6 @@ namespace WPPod.Models
             }
         }
 
-        private long? _id = null;
-
         [JsonProperty("id")]
         public long? Id
         {
@@ -63,23 +70,19 @@ namespace WPPod.Models
         [JsonProperty("menu_id")]
         public long? MenuId
         {
-            get {
-                if (_menu != null)
-                    return _menu.Id;
-                else
-                    return null;
-            }
+            get { return menuId; }
+            set { SetProperty(ref menuId, value); }
         }
 
-        private Menu _menu;
-
+        [JsonIgnore]
         public Menu Menu
         {
             get { return _menu; }
-            set { SetProperty(ref _menu, value); }
+            set {
+                SetProperty(ref _menu, value);
+                menuId = _menu.Id;
+            }
         }
-
-        private string _title = string.Empty;
 
         [JsonProperty("title")]
         public string Title
@@ -88,16 +91,12 @@ namespace WPPod.Models
             set { SetProperty(ref _title, value); }
         }
 
-        private string _description = string.Empty;
-
         [JsonProperty("description")]
         public string Description
         {
             get { return _description; }
             set { SetProperty(ref _description, value); }
         }
-
-        private double _price = 0;
 
         [JsonProperty("price")]
         public double Price
@@ -106,16 +105,12 @@ namespace WPPod.Models
             set { SetProperty(ref _price, value); }
         }
 
-        private string _photo = string.Empty;
-
-        [JsonProperty("photo")]
-        public string Photo
+        [JsonProperty("photo_url")]
+        public string PhotoURL
         {
-            get { return _photo; }
-            set { SetProperty(ref _photo, value); }
+            get { return _photoURL; }
+            set { SetProperty(ref _photoURL, value); }
         }
-
-        private FoodType _foodType = FoodType.HotBeverage;
 
         [JsonProperty("food_type")]
         public FoodType FoodType

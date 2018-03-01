@@ -12,13 +12,14 @@ using WPPodManager.Views;
 
 namespace WPPodManager
 {
-    public partial class App : Application, INesterControl
+	public partial class App : Application, INesterControl
     {
-        private User _user;
         private const int ServiceVersion = 1;
-        private NesterService _service, _target;
+        private NesterService _appMeta, _appDeployed;
         private StorageService _storage;
+
         private BaseModels _baseModels;
+        private User _user;
         private Permit _permit;
 
         private BannerView _progressView;
@@ -27,28 +28,25 @@ namespace WPPodManager
         private OrderPage _orderPage;
         private StockPage _stockPage;
 
-        public App()
-        {
-            InitializeComponent();
+        public App ()
+		{
+			InitializeComponent();
+
+            _baseModels = new BaseModels(
+                    new AuthViewModel(),
+                    new PaymentViewModel(),
+                    new AppViewModel());
 
             _user = new User();
 
-            _service = new NesterService();
-            _service.Version = ServiceVersion;
+            _appMeta = new NesterService();
+            _appMeta.Version = ServiceVersion;
 
-            _target = new NesterService();
+            _appDeployed = new NesterService();
+            _appDeployed.Version = ServiceVersion;
+
             _storage = new StorageService();
             _storage.Clear();
-
-            _baseModels = new BaseModels(
-                new AuthViewModel(),
-                new PaymentViewModel(),
-                new AppViewModel());
-
-            _aboutPage = new AboutPage();
-            _menuPage = new MenuPage();
-            _orderPage = new OrderPage();
-            _stockPage = new StockPage();
 
             _progressView = new BannerView("Please wait ..");
             _aboutPage = new AboutPage();
@@ -82,6 +80,16 @@ namespace WPPodManager
             set { _user = value; }
         }
 
+        public NesterService Service
+        {
+            get { return _appMeta; }
+        }
+
+        public NesterService DeployedApp
+        {
+            get { return _appDeployed; }
+        }
+
         public AppViewModel Target
         {
             get { return _baseModels.TargetViewModel; }
@@ -91,26 +99,15 @@ namespace WPPodManager
 
                 if (value != null)
                 {
-                    _target.Version = ServiceVersion;
-                    _target.Endpoint = string.Format(
+                    _appDeployed.Version = ServiceVersion;
+                    _appDeployed.Endpoint = string.Format(
                         "https://{0}/", value.EditApp.Hostname);
-                    _target.BasicAuth = new BasicAuth(
-                        true, value.EditApp.Tag, 
+                    _appDeployed.BasicAuth = new BasicAuth(
+                        true, value.EditApp.Tag,
                         value.EditApp.NetworkPassword);
                 }
             }
         }
-
-        public NesterService Service
-        {
-            get { return _service; }
-        }
-
-        public NesterService DeployedApp
-        {
-            get { return _target; }
-        }
-
         public StorageService StorageService
         {
             get { return _storage; }
@@ -134,12 +131,12 @@ namespace WPPodManager
 
         public async Task ResetViewAsync(AppViewModel appModel = null)
         {
-            AppViewModel targetModel = appModel != null ?                 
+            AppViewModel targetModel = appModel != null ?
                 appModel : _baseModels.TargetViewModel;
 
             Inkton.Nester.Models.App wppodApp = new Inkton.Nester.Models.App();
             wppodApp.Owner = _user;
-            wppodApp.Tag = "wppod";
+            wppodApp.Tag = WPPod.Platform.AppTag;
             targetModel.EditApp = wppodApp;
             await targetModel.InitAsync();
             Target = targetModel;
@@ -157,11 +154,11 @@ namespace WPPodManager
             {
                 // the app owner/admin
                 _user = new User();
-                _user.Email = "john@nest.yt";
+                _user.Email = WPPod.Platform.Email;
 
                 _permit = new Permit();
                 _permit.Owner = User;
-                _permit.Password = "helloworld";
+                _permit.Password = WPPod.Platform.Password;
 
                 _baseModels.AuthViewModel.Permit = _permit;
                 ServerStatus status = await _baseModels.AuthViewModel

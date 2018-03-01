@@ -41,7 +41,7 @@ namespace Wppod.Models
                 .HasKey(menuItem => new { menuItem.Id });
 
             modelBuilder.Entity<Order>()
-                .HasKey(order => new { order.Id, order.UserId });
+                .HasKey(order => new { order.Id });
 
             modelBuilder.Entity<OrderItem>()
                 .HasKey(orderItem => new { orderItem.Id });

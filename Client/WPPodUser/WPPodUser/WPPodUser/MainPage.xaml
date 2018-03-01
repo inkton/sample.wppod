@@ -80,7 +80,7 @@
                             FontSize="16"/>
             </StackLayout>
             <StackLayout Orientation="Vertical" >
-                <Image Source="{Binding SelectedMenuItem.Photo}"  />
+                <Image Source="{Binding SelectedMenuItem.PhotoUrl}"  />
             </StackLayout>
         </StackLayout>
         <StackLayout Grid.Row="4" Grid.Column="1"
